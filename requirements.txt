@@ -4,4 +4,6 @@ pylint
 # Testing
 coverage
 
-# App
+# CI/CD
+drone
+docker
