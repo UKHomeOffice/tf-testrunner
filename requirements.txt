@@ -1,0 +1,7 @@
+# Linters
+pylint
+
+# Testing
+coverage
+
+# App

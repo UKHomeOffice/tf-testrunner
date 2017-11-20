@@ -99,3 +99,10 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+
+#terraform
+.terraform
+
+#IDE
+*.iml
