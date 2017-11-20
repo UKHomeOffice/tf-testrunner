@@ -14,7 +14,7 @@ pipeline:
       - DOCKER_HOST=tcp://127.0.0.1:2375
     commands:
       - docker login -u="ukhomeofficedigital+tftestrunner" -p=${DOCKER_PASSWORD} quay.io
-      - docker push quay.io/ukhomeofficedigital/developer-induction:${DRONE_COMMIT_SHA}
+      - docker push quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
 
   tag_as_latest_quay:
     image: docker
