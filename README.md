@@ -4,7 +4,7 @@ tf-testrunner parses [Terraform configuration](https://www.terraform.io/docs/con
 
 ### How it works:
 
-Automating the output of the command ```terraform plan```, saving it's output to a temp directory and parsing it to a Python dict object to then run unit tests against. 
+Automating the output of the command ```terraform plan```, saving its output to a temp directory and parsing it to a Python dict object to then run unit tests against. 
 
 Refer to the [examples directory](https://github.com/UKHomeOffice/tf-testrunner/tree/master/examples/basic-proof) for example Terraform projects that use [tf-testrunner](https://github.com/UKHomeOffice/tf-testrunner/). 
 
