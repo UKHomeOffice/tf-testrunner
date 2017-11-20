@@ -1,0 +1,5 @@
+pipeline:
+
+  test:
+    image: quay.io/ukhomeofficedigital/tf-testrunner:foo
+    commands: python -m unittest tests/*_test.py
