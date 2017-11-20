@@ -18,7 +18,7 @@ pipeline:
 
 
   test_example_implementation:
-    image: quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA} .
+    image: quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
     commands:
       - cd basic-proof
       - python -m unittest tests/*_test.py
