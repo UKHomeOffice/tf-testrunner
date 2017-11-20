@@ -23,4 +23,4 @@ RUN pylint **/*.py \
 
 RUN pip install .
 
-CMD python -m unittest tests/*_test.py
+ENTRYPOINT python -m unittest tests/*_test.py
