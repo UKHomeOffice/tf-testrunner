@@ -29,10 +29,11 @@ class Runner(object):
         fh.close()
 
     def _teraform_plan(self):
-        os.system("terraform plan -out=%s/mytf.tfplan %s" % (self.tmpdir, self.tmpdir))
+        os.system("terraform plan -input=false -out=%s/mytf.tfplan %s" % (self.tmpdir, self.tmpdir))
 
-    def _copy_tf_files(self):
-        subprocess.call(["mkdir", "%s/mymodule" % (self.tmpdir)])
+    def _copy_tf_files(self): # @TODO: test
+        os.system("rm -rf .terraform/modules")
+        os.system("mkdir %s/mymodule" % self.tmpdir)
         subprocess.call(["cp", "my_module.tf", "%s/mymodule" % (self.tmpdir)])  # @TODO handle wildcard
 
     def run(self):

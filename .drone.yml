@@ -16,6 +16,13 @@ pipeline:
       - docker login -u="ukhomeofficedigital+tftestrunner" -p=${DOCKER_PASSWORD} quay.io
       - docker push quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
 
+
+  test_example_implementation:
+    image: quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA} .
+    commands:
+      - cd basic-proof
+      - python -m unittest tests/*_test.py
+
   tag_as_latest_quay:
     image: docker
     environment:

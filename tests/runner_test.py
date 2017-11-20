@@ -32,7 +32,7 @@ class TestRunnerMethods(unittest.TestCase):
     @mock.patch("os.system")
     def test_teraform_plan(self, os_mock):
         Runner._teraform_plan(self)
-        os_mock.assert_called_once_with("terraform plan -out=" + self.tmpdir + "/mytf.tfplan " + self.tmpdir)
+        os_mock.assert_called_once_with("terraform plan -input=false -out=" + self.tmpdir + "/mytf.tfplan " + self.tmpdir)
 
     @mock.patch("subprocess.check_output")
     def test_snippet_to_json(self, subprocess_mock):
@@ -77,6 +77,28 @@ class TestE2E(unittest.TestCase):
 
     def test_destroy_tainted(self):
         self.assertEqual(self.result["aws_instance.foo"]["destroy_tainted"], False)
+
+
+class TestE2EModule(unittest.TestCase):
+    def setUp(self):
+        self.snippet = """
+        provider "aws" {
+            region     = "eu-west-2"
+            access_key = "foo"
+            secret_key = "bar"
+            skip_credentials_validation = true
+            skip_get_ec2_platforms = true
+        }
+        
+        module "foo" {
+            source = "./mymodule"
+        }
+        """
+        self.result = Runner(self.snippet).result
+
+    def test_root_destroy(self):
+        self.assertEqual(self.result["destroy"], False)
+
 
 
 if __name__ == '__main__':
