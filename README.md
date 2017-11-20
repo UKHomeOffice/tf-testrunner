@@ -39,7 +39,7 @@ basic-proof ottern$ drone5 exec
 
 Refer to the [examples directory](https://github.com/UKHomeOffice/tf-testrunner/tree/master/examples/basic-proof) for example Terraform projects that use [tf-testrunner](https://github.com/UKHomeOffice/tf-testrunner/). 
 
-### Tf Testrunner uses
+## Tf Testrunner uses
 
 * [tfjson](https://github.com/palantir/tfjson)
 
