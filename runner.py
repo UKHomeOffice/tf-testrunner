@@ -31,9 +31,14 @@ class Runner(object):
     def _teraform_plan(self):
         os.system("terraform plan -out=%s/mytf.tfplan %s" % (self.tmpdir, self.tmpdir))
 
+    def _copy_tf_files(self):
+        subprocess.call(["mkdir", "%s/mymodule" % (self.tmpdir)])
+        subprocess.call(["cp", "my_module.tf", "%s/mymodule" % (self.tmpdir)])  # @TODO handle wildcard
+
     def run(self):
         self._mktmpdir()
         self._write_test_tf()
+        self._copy_tf_files()
         self._terraform_init()
         self._teraform_plan()
         json = self.snippet_to_json()
@@ -47,4 +52,3 @@ class Runner(object):
     @staticmethod
     def json_to_dict(json_file):
         return json.loads(json_file)
-
