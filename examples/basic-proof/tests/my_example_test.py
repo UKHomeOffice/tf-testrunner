@@ -25,17 +25,17 @@ class TestE2E(unittest.TestCase):
         print (self.result)
         self.assertEqual(self.result["destroy"], False)
 
-        def test_instance_type(self):
-            self.assertEqual(self.result["aws_instance.foo"]["instance_type"], "t2.micro")
+    def test_instance_type(self):
+        self.assertEqual(self.result["aws_instance.foo"]["instance_type"], "t2.micro")
 
-        def test_ami(self):
-            self.assertEqual(self.result["aws_instance.foo"]["ami"], "foo")
+    def test_ami(self):
+        self.assertEqual(self.result["aws_instance.foo"]["ami"], "foo")
 
-        def test_destroy(self):
-            self.assertEqual(self.result["aws_instance.foo"]["destroy"], False)
+    def test_destroy(self):
+        self.assertEqual(self.result["aws_instance.foo"]["destroy"], False)
 
-        def test_destroy_tainted(self):
-            self.assertEqual(self.result["aws_instance.foo"]["destroy_tainted"], False)
+    def test_destroy_tainted(self):
+        self.assertEqual(self.result["aws_instance.foo"]["destroy_tainted"], False)
 
 
 if __name__ == '__main__':
