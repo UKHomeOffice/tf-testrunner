@@ -65,6 +65,9 @@ class TestMyModule(unittest.TestCase):
         print (self.result)
         self.assertEqual(self.result["destroy"], False)
 
+    def test_instance_type(self):
+        self.assertEqual(self.result['my_module']["aws_instance.foo"]["instance_type"], "t2.micro")
+
 if __name__ == '__main__':
     unittest.main()
 ```
