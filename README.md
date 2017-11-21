@@ -28,7 +28,7 @@ drone exec
 docker run --rm -v `pwd`:/mytests -w /mytests quay.io/ukhomeofficedigital/tf-testrunner
 ```
 
-### Python (~> 3.6.3) & Go (~> 1.9.2) execution
+### Python (\~> 3.6.3) & Go (\~> 1.9.2) execution
 ```bash
 pip install git+git://github.com/UKHomeOffice/tf-testrunner.git#egg=tf-testrunner
 go get github.com/wybczu/tfjson
