@@ -11,13 +11,13 @@ class Runner(object):
 
     def __init__(self, snippet):
         self.snippet = snippet
+        self.tmpdir = tempfile.mkdtemp()
         self.run()
 
     def _removetmpdir(self):
         shutil.rmtree(self.tmpdir)
 
     def _mktmpdir(self):
-        self.tmpdir = tempfile.mkdtemp()
         print(self.tmpdir)
 
     def _terraform_init(self):
@@ -42,8 +42,8 @@ class Runner(object):
         self._copy_tf_files()
         self._terraform_init()
         self._teraform_plan()
-        json = self.snippet_to_json()
-        result = self.json_to_dict(json)
+        json_string = self.snippet_to_json()
+        result = self.json_to_dict(json_string)
         self.result = result
         self._removetmpdir()
 
