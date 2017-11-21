@@ -50,8 +50,7 @@ class TestMyModule(unittest.TestCase):
         self.snippet = """
             provider "aws" {
               region = "eu-west-2"
-              access_key = "foo"
-              secret_key = "bar"
+              profile = "foo"
               skip_credentials_validation = true
               skip_get_ec2_platforms = true
             }
