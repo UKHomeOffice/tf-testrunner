@@ -4,6 +4,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+import glob
 
 
 class Runner(object):
@@ -31,10 +32,11 @@ class Runner(object):
     def _teraform_plan(self):
         os.system("terraform plan -input=false -out=%s/mytf.tfplan %s" % (self.tmpdir, self.tmpdir))
 
-    def _copy_tf_files(self): # @TODO: test
+    def _copy_tf_files(self):
         os.system("rm -rf .terraform/modules")
         os.system("mkdir %s/mymodule" % self.tmpdir)
-        subprocess.call(["cp", "my_module.tf", "%s/mymodule" % (self.tmpdir)])  # @TODO handle wildcard
+        tf_files = glob.glob("*.tf")
+        subprocess.call(["cp", tf_files, "%s/mymodule" % (self.tmpdir)])
 
     def run(self):
         self._mktmpdir()
