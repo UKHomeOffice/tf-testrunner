@@ -1,10 +1,10 @@
 # Tf Testrunner
 
-tf-testrunner parses [Terraform configuration](https://www.terraform.io/docs/configuration/index.html) to Python, readying it for testing.
+tf-testrunner parses [Terraform configuration](https://www.terraform.io/docs/configuration/index.html) to Python and then runs your tests.
 
 ### How it works:
 
-Automating the output of the command ```terraform plan```, saving its output to a temp directory and parsing it to a Python dict object to then run unit tests against. 
+Testrunner automates the output of the command ```terraform plan```, saves its output to a temp directory. Parses the temp file to a Python dict object and then runs your test folder against it. 
 
 Refer to the [examples directory](https://github.com/UKHomeOffice/tf-testrunner/tree/master/examples/basic-proof) for example Terraform projects that use [tf-testrunner](https://github.com/UKHomeOffice/tf-testrunner/). 
 
@@ -18,7 +18,7 @@ Refer to the [examples directory](https://github.com/UKHomeOffice/tf-testrunner/
 
 ## Installation
 
-tf-testrunner is packaged as a Docker container image on [Quay](https://github.com/coreos/quay-docs), it can be [installed via Drone](https://github.com/drone/drone).
+tf-testrunner is packaged as a Docker container image on [Quay](https://github.com/coreos/quay-docs), it can be [run via Drone](https://github.com/drone/drone).
 
 ### Adding tf-testrunner to a Terraform project:
 
@@ -32,9 +32,9 @@ pipeline:
     commands: python -m unittest tests/*_test.py
 ```
 
-Then, run Drone to launch the tests:
+Then, run Drone in root to launch:
 ```
-basic-proof ottern$ drone5 exec
+drone5 exec
 ```
 
 Refer to the [examples directory](https://github.com/UKHomeOffice/tf-testrunner/tree/master/examples/basic-proof) for example Terraform projects that use [tf-testrunner](https://github.com/UKHomeOffice/tf-testrunner/). 
