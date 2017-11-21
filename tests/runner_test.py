@@ -43,7 +43,6 @@ class TestRunnerMethods(unittest.TestCase):
         os_mock.assert_any_call("rm -rf .terraform/modules")
         os_mock.assert_any_call("mkdir " + self.tmpdir + "/mymodule")
 
-
     @mock.patch("subprocess.call")
     @mock.patch("os.system")
     @mock.patch("glob.glob")
