@@ -28,7 +28,7 @@ drone exec
 docker run --rm -v `pwd`:/mytests -w /mytests quay.io/ukhomeofficedigital/tf-testrunner
 ```
 
-### Python (~> 3.6.3) & Go (~> 1.9.2) execution
+### Python (\~> 3.6.3) & Go (\~> 1.9.2) execution
 ```bash
 pip install git+git://github.com/UKHomeOffice/tf-testrunner.git#egg=tf-testrunner
 go get github.com/wybczu/tfjson
@@ -50,8 +50,7 @@ class TestMyModule(unittest.TestCase):
         self.snippet = """
             provider "aws" {
               region = "eu-west-2"
-              access_key = "foo"
-              secret_key = "bar"
+              profile = "foo"
               skip_credentials_validation = true
               skip_get_ec2_platforms = true
             }

@@ -60,9 +60,8 @@ class TestE2E(unittest.TestCase):
     def setUp(self):
         self.snippet = """
         provider "aws" {
-            region     = "eu-west-2"
-            access_key = "foo"
-            secret_key = "bar"
+            region  = "eu-west-2"
+            profile = "foo"
             skip_credentials_validation = true
             skip_get_ec2_platforms = true
         }
@@ -95,8 +94,7 @@ class TestE2EModule(unittest.TestCase):
         self.snippet = """
         provider "aws" {
             region     = "eu-west-2"
-            access_key = "foo"
-            secret_key = "bar"
+            profile = "foo"
             skip_credentials_validation = true
             skip_get_ec2_platforms = true
         }
