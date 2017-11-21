@@ -34,7 +34,6 @@ class TestRunnerMethods(unittest.TestCase):
         Runner._teraform_plan(self)
         os_mock.assert_called_once_with("terraform plan -input=false -out=" + self.tmpdir + "/mytf.tfplan " + self.tmpdir)
 
-
     @mock.patch("subprocess.call")
     @mock.patch("os.system")
     @mock.patch("glob.glob")
