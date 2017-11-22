@@ -4,7 +4,8 @@ from runner import Runner
 
 
 class TestE2E(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         self.snippet = """
             provider "aws" {
               region = "eu-west-2"

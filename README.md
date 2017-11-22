@@ -51,7 +51,8 @@ import unittest
 from runner import Runner
 
 class TestMyModule(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         self.snippet = """
             provider "aws" {
               region = "eu-west-2"

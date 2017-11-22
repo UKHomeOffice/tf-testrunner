@@ -3,6 +3,7 @@ import unittest
 from unittest import mock
 from runner import Runner
 
+
 class TestRunnerMethods(unittest.TestCase):
     def setUp(self):
         self.snippet = "string"
@@ -14,7 +15,7 @@ class TestRunnerMethods(unittest.TestCase):
         Runner._mktmpdir(self)
         self.assertEqual(self.tmpdir, "path")
 
-    @unittest.skip # @TODO
+    @unittest.skip  # @TODO
     def test_run(self):
         # runner.run()
         self.assertEqual('{dict}', '{dict}')
@@ -32,9 +33,10 @@ class TestRunnerMethods(unittest.TestCase):
     @mock.patch("os.system")
     def test_teraform_plan(self, os_mock):
         Runner._teraform_plan(self)
-        os_mock.assert_called_once_with("terraform plan -input=false -out=" + self.tmpdir + "/mytf.tfplan " + self.tmpdir)
+        os_mock.assert_called_once_with(
+            "terraform plan -input=false -out=" + self.tmpdir + "/mytf.tfplan " + self.tmpdir)
 
-    @unittest.skip # @TODO
+    @unittest.skip  # @TODO
     @mock.patch("os.system")
     def test__copy_tf_files(self, os_mock):
         Runner._copy_tf_files(self)
