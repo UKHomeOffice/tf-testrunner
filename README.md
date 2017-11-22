@@ -82,4 +82,5 @@ resource "aws_instance" "foo" {
 
 ## Acknowledgements
 
-We leverage [tfjson](https://github.com/palantir/tfjson) to get a machine readable output of the `terraform plan` which we can then evaluate against, When terraform has an inbuilt [machine readable output](https://github.com/hashicorp/terraform/pull/3170), expect a refactor of this tool to use that instead of tfjson.
+We leverage [tfjson](https://github.com/palantir/tfjson) to get a machine readable output of the `terraform plan` which we can then evaluate against.
+When terraform has an inbuilt [machine readable output](https://github.com/hashicorp/terraform/pull/3170), expect a refactor of this tool to use that instead of tfjson.
