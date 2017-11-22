@@ -1,9 +1,11 @@
 # go get github.com/wybczu/tfjson
 import json
 import os
+import sys
 import shutil
 import subprocess
 import tempfile
+import glob
 
 
 class Runner(object):
@@ -18,7 +20,6 @@ class Runner(object):
 
     def _mktmpdir(self):
         self.tmpdir = tempfile.mkdtemp()
-        print(self.tmpdir)
 
     def _terraform_init(self):
         subprocess.call(["terraform", "init", self.tmpdir])
@@ -31,10 +32,14 @@ class Runner(object):
     def _teraform_plan(self):
         os.system("terraform plan -input=false -out=%s/mytf.tfplan %s" % (self.tmpdir, self.tmpdir))
 
-    def _copy_tf_files(self): # @TODO: test
+    def _copy_tf_files(self):
         os.system("rm -rf .terraform/modules")
         os.system("mkdir %s/mymodule" % self.tmpdir)
-        subprocess.call(["cp", "my_module.tf", "%s/mymodule" % (self.tmpdir)])  # @TODO handle wildcard
+
+        files = glob.iglob(os.path.join(sys.path[0], "*.tf"))
+        for file in files:
+            if os.path.isfile(file):
+                shutil.copy(file, "%s/mymodule" % (self.tmpdir))
 
     def run(self):
         self._mktmpdir()
