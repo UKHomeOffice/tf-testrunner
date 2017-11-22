@@ -5,9 +5,14 @@ tf-testrunner parses [Terraform configuration](https://www.terraform.io/docs/con
 
 ### How it works:
 
-Testrunner automates the output of the command ```terraform plan```, saves its output to a temp directory. Parses the temp file to a Python dict object and then runs your test folder against it. 
+Testrunner automates the output of the command ```terraform plan```, saves its
+output to a temp directory. Parses the temp file to a Python dict object and
+then runs your test folder against it. 
 
-Refer to the [examples directory](https://github.com/UKHomeOffice/tf-testrunner/tree/master/examples/basic-proof) for example Terraform projects that use [tf-testrunner](https://github.com/UKHomeOffice/tf-testrunner/). 
+Refer to the [examples
+directory](https://github.com/UKHomeOffice/tf-testrunner/tree/master/examples/basic-proof)
+for example Terraform projects that use
+[tf-testrunner](https://github.com/UKHomeOffice/tf-testrunner/). 
 
 
 ## Usage
@@ -82,5 +87,8 @@ resource "aws_instance" "foo" {
 
 ## Acknowledgements
 
-We leverage [tfjson](https://github.com/palantir/tfjson) to get a machine readable output of the `terraform plan` which we can then evaluate against.
-When terraform has an inbuilt [machine readable output](https://github.com/hashicorp/terraform/pull/3170), expect a refactor of this tool to use that instead of tfjson.
+We leverage [tfjson](https://github.com/palantir/tfjson) to get a machine
+readable output of the `terraform plan` which we can then evaluate against.
+When terraform has an inbuilt [machine readable
+output](https://github.com/hashicorp/terraform/pull/3170), expect a refactor of
+this tool to use that instead of tfjson.
