@@ -86,6 +86,48 @@ resource "aws_instance" "foo" {
 
 **[More examples](./examples)**
 
+## Additional Usage
+
+To handle the occurrence of unique numbers in keys after parsing, use the assertion helper method ```finder```.
+
+tests/tf_assertion_helper_test.py
+```hcl-terraform
+import unittest
+from tf_assertion_helper import finder
+
+parent = {
+    'egress.482069346.cidr_blocks.#': '1',
+    'egress.482069346.cidr_blocks.0': '0.0.0.0/0',
+    'egress.482069346.description': '',
+    'egress.482069346.from_port': '0',
+    'egress.482069346.ipv6_cidr_blocks.#': '0',
+    'egress.482069346.prefix_list_ids.#': '0',
+    'egress.482069346.protocol': '-1',
+    'egress.482069346.security_groups.#': '0',
+    'egress.482069346.self': 'false',
+    'egress.482069346.to_port': '0',
+    'id': '',
+    'ingress.#': '2',
+    'ingress.244708223.cidr_blocks.#': '1',
+    'ingress.244708223.cidr_blocks.0': '0.0.0.0/0',
+    'ingress.244708223.description': '',
+    'ingress.244708223.from_port': '3389',
+    'ingress.244708223.ipv6_cidr_blocks.#': '0'
+}
+
+class TestFinder(unittest.TestCase):
+
+    def test_happy_path(self):
+        self.assertTrue(finder(parent, 'ingress', {'cidr_blocks.0': '0.0.0.0/0', 'from_port': '3389'}))
+
+    def test_unhappy_path(self):
+        self.assertFalse(finder(parent, 'ingress', {'cidr_blocks.0': '0.0.0.0/0', 'from_port': '0', 'self': 'true'}))
+
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
 ## Acknowledgements
 
 We leverage [tfjson](https://github.com/palantir/tfjson) to get a machine
