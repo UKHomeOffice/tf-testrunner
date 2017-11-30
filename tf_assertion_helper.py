@@ -1,16 +1,20 @@
+"""Assertion helper to support runner.py"""
+
 # @TODO use filters
 def finder(parent, starts_with, matching_object):
+    """ignores unique numbers in keys"""
+
     candidates = {k for k in parent.keys() if k.startswith(starts_with)}
 
     nested_candidates = {}
     for candidate in candidates:
-        bar = candidate[len(starts_with)+1:].split('.', 1)
-        if len(bar) < 2:
+        split_candidate = candidate[len(starts_with)+1:].split('.', 1)
+        if len(split_candidate) < 2:
             continue
-        if bar[0] not in nested_candidates:
-            nested_candidates[bar[0]] = {}
+        if split_candidate[0] not in nested_candidates:
+            nested_candidates[split_candidate[0]] = {}
 
-        nested_candidates[bar[0]][bar[1]] = parent[candidate]
+        nested_candidates[split_candidate[0]][split_candidate[1]] = parent[candidate]
 
     for nested_candidate in nested_candidates.values():
         have_match = False

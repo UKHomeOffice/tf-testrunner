@@ -1,3 +1,4 @@
+# pylint: disable=missing-docstring
 from setuptools import setup
 
 setup(name='aws-terraform-test-runner',
