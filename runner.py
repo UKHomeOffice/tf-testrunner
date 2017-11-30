@@ -6,7 +6,7 @@ import shutil
 import subprocess
 import tempfile
 import glob
-
+from tf_assertion_helper import finder
 
 class Runner(object):
     """Terraform converter, converting .tf files into JSON and Python"""
@@ -58,3 +58,6 @@ class Runner(object):
     @staticmethod
     def json_to_dict(json_file):
         return json.loads(json_file)
+
+    def finder(parent, starts_with, matching_object):
+        return finder(parent, starts_with, matching_object)
