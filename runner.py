@@ -1,4 +1,5 @@
 # go get github.com/wybczu/tfjson
+# pylint: disable=missing-docstring, E0213, W0201
 import json
 import os
 import sys
@@ -25,9 +26,9 @@ class Runner(object):
         subprocess.call(["terraform", "init", self.tmpdir])
 
     def _write_test_tf(self):
-        fh = open("%s/mytf.tf" % (self.tmpdir), "w")
-        fh.write(self.snippet)
-        fh.close()
+        tmp_mytf_file = open("%s/mytf.tf" % (self.tmpdir), "w")
+        tmp_mytf_file.write(self.snippet)
+        tmp_mytf_file.close()
 
     def _teraform_plan(self):
         os.system("terraform plan -input=false -out=%s/mytf.tfplan %s" % (self.tmpdir, self.tmpdir))
@@ -47,8 +48,8 @@ class Runner(object):
         self._copy_tf_files()
         self._terraform_init()
         self._teraform_plan()
-        json = self.snippet_to_json()
-        result = self.json_to_dict(json)
+        json_snippet = self.snippet_to_json()
+        result = self.json_to_dict(json_snippet)
         self.result = result
         self._removetmpdir()
 
