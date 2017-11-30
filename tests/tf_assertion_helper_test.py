@@ -1,5 +1,4 @@
 import unittest
-
 from tf_assertion_helper import finder
 
 parent = {
@@ -22,7 +21,7 @@ parent = {
     'ingress.244708223.ipv6_cidr_blocks.#': '0'
 }
 
-class TestMagicFinder(unittest.TestCase):
+class TestFinder(unittest.TestCase):
 
     def test_happy_path(self):
         self.assertTrue(finder(parent, 'ingress', {'cidr_blocks.0': '0.0.0.0/0', 'from_port': '3389'}))
