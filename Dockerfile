@@ -9,8 +9,6 @@ FROM python:3-slim
 COPY --from=tfjson /go/tfjson /usr/local/bin
 COPY --from=hashicorp/terraform /bin/terraform /usr/local/bin
 
-RUN apt-get update && apt-get install -y git
-
 WORKDIR /app
 
 COPY requirements.txt .
