@@ -93,7 +93,7 @@ To handle the occurrence of unique numbers in keys after parsing, use the assert
 tests/tf_assertion_helper_test.py
 ```hcl-terraform
 import unittest
-from tf_assertion_helper import finder
+from runner import Runner
 
 parent = {
     'egress.482069346.cidr_blocks.#': '1',
@@ -118,10 +118,10 @@ parent = {
 class TestFinder(unittest.TestCase):
 
     def test_happy_path(self):
-        self.assertTrue(finder(parent, 'ingress', {'cidr_blocks.0': '0.0.0.0/0', 'from_port': '3389'}))
+        self.assertTrue(Runner.finder(parent, 'ingress', {'cidr_blocks.0': '0.0.0.0/0', 'from_port': '3389'}))
 
     def test_unhappy_path(self):
-        self.assertFalse(finder(parent, 'ingress', {'cidr_blocks.0': '0.0.0.0/0', 'from_port': '0', 'self': 'true'}))
+        self.assertFalse(Runner.finder(parent, 'ingress', {'cidr_blocks.0': '0.0.0.0/0', 'from_port': '0', 'self': 'true'}))
 
 
 if __name__ == '__main__':
