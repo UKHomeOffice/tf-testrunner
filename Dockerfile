@@ -6,6 +6,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' github
 ## build our app in python
 FROM python:3-slim
 
+RUN apt-get update && apt-get install -y git
+
 COPY --from=tfjson /go/tfjson /usr/local/bin
 COPY --from=hashicorp/terraform /bin/terraform /usr/local/bin
 
