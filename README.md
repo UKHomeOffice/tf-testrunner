@@ -135,3 +135,5 @@ readable output of the `terraform plan` which we can then evaluate against.
 When terraform has an inbuilt [machine readable
 output](https://github.com/hashicorp/terraform/pull/3170), expect a refactor of
 this tool to use that instead of tfjson.
+
+When researching testing strategies for Terraform, we found [Carlos Nunez](https://github.com/carlosonunez)'s article [Top 3 Terraform Testing Strategies...](https://www.contino.io/insights/top-3-terraform-testing-strategies-for-ultra-reliable-infrastructure-as-code) to be great inspiration and very informative. 
