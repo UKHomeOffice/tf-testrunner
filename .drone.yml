@@ -5,7 +5,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
-      - docker build -t quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA} .
+      - docker build -t quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} .
     when:
       event: push
 
@@ -14,8 +14,10 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
-      - docker login -u="ukhomeofficedigital+dqbot" -p=${DOCKER_PASSWORD} quay.io
-      - docker push quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
+      - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
+      - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
+    secrets:
+      - DOCKER_PASSWORD
     when:
       event: push
 
@@ -33,9 +35,11 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
-      - docker login -u="ukhomeofficedigital+dqbot" -p=${DOCKER_PASSWORD} quay.io
-      - docker tag quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:latest
+      - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
+      - docker tag quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:latest
       - docker push quay.io/ukhomeofficedigital/tf-testrunner:latest
+    secrets:
+      - DOCKER_PASSWORD      
     when:
       branch: master
       event: push
