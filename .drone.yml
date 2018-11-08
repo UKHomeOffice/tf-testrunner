@@ -1,12 +1,13 @@
 pipeline:
 
   build:
-    privileged: true
     image: docker
     environment:
       - DOCKER_HOST=tcp://127.0.0.1:2375
     commands:
       - docker build -t quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA} .
+    when:
+      event: push
 
   image_to_quay:
     image: docker
@@ -15,6 +16,8 @@ pipeline:
     commands:
       - docker login -u="ukhomeofficedigital+dqbot" -p=${DOCKER_PASSWORD} quay.io
       - docker push quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
+    when:
+      event: push
 
 
   test_example_implementation:
@@ -22,6 +25,8 @@ pipeline:
     commands:
       - cd examples/basic-proof
       - python -m unittest tests/*_test.py
+    when:
+      event: push
 
   tag_as_latest_quay:
     image: docker
@@ -34,11 +39,3 @@ pipeline:
     when:
       branch: master
       event: push
-
-services:
-  dind:
-    image: docker:dind
-    privileged: true
-    command:
-      - "-s"
-      - "overlay"
