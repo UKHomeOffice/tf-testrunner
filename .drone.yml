@@ -13,7 +13,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://127.0.0.1:2375
     commands:
-      - docker login -u="ukhomeofficedigital+tftestrunner" -p=${DOCKER_PASSWORD} quay.io
+      - docker login -u="ukhomeofficedigital+dqbot" -p=${DOCKER_PASSWORD} quay.io
       - docker push quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
 
 
@@ -28,7 +28,7 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://127.0.0.1:2375
     commands:
-      - docker login -u="ukhomeofficedigital+tftestrunner" -p=${DOCKER_PASSWORD} quay.io
+      - docker login -u="ukhomeofficedigital+dqbot" -p=${DOCKER_PASSWORD} quay.io
       - docker tag quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:latest
       - docker push quay.io/ukhomeofficedigital/tf-testrunner:latest
     when:
