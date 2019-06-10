@@ -93,11 +93,10 @@ class TestE2EModule(unittest.TestCase):
     def setUp(self):
         self.snippet = """
         provider "aws" {
-            region     = "eu-west-2"
+            region  = "eu-west-2"
             profile = "foo"
             skip_credentials_validation = true
             skip_get_ec2_platforms = true
-            skip_requesting_account_id = true
         }
 
         module "foo" {

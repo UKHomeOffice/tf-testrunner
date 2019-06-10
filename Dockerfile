@@ -9,7 +9,7 @@ FROM python:3-slim
 RUN apt-get update && apt-get install -y git
 
 COPY --from=tfjson /go/tfjson /usr/local/bin
-COPY --from=hashicorp/terraform /bin/terraform /usr/local/bin
+COPY --from=hashicorp/terraform:0.11.14 /bin/terraform /usr/local/bin
 
 WORKDIR /app
 
