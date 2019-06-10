@@ -63,6 +63,7 @@ class TestE2E(unittest.TestCase):
             profile = "foo"
             skip_credentials_validation = true
             skip_get_ec2_platforms = true
+            skip_requesting_account_id = true
         }
 
         resource "aws_instance" "foo" {
@@ -96,8 +97,9 @@ class TestE2EModule(unittest.TestCase):
             profile = "foo"
             skip_credentials_validation = true
             skip_get_ec2_platforms = true
+            skip_requesting_account_id = true
         }
-        
+
         module "foo" {
             source = "./mymodule"
         }

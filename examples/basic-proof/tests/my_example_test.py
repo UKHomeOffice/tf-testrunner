@@ -12,8 +12,9 @@ class TestE2E(unittest.TestCase):
               profile = "foo"
               skip_credentials_validation = true
               skip_get_ec2_platforms = true
+              skip_requesting_account_id = true
             }
-            
+
             module "my_module" {
               source = "./mymodule"
             }
