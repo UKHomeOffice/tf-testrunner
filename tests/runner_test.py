@@ -97,6 +97,7 @@ class TestE2EModule(unittest.TestCase):
             profile = "foo"
             skip_credentials_validation = true
             skip_get_ec2_platforms = true
+            skip_requesting_account_id = true
         }
 
         module "foo" {
