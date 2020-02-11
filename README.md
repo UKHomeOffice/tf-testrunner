@@ -7,12 +7,12 @@ tf-testrunner parses [Terraform configuration](https://www.terraform.io/docs/con
 
 Testrunner automates the output of the command ```terraform plan```, saves its
 output to a temp directory. Parses the temp file to a Python dict object and
-then runs your test folder against it. 
+then runs your test folder against it.
 
 Refer to the [examples
 directory](https://github.com/UKHomeOffice/tf-testrunner/tree/master/examples/basic-proof)
 for example Terraform projects that use
-[tf-testrunner](https://github.com/UKHomeOffice/tf-testrunner/). 
+[tf-testrunner](https://github.com/UKHomeOffice/tf-testrunner/).
 
 
 ## Usage
@@ -56,9 +56,12 @@ class TestMyModule(unittest.TestCase):
         self.snippet = """
             provider "aws" {
               region = "eu-west-2"
+              access_key = "foo"
+              secret_key = "bar"
               profile = "foo"
               skip_credentials_validation = true
               skip_get_ec2_platforms = true
+              skip_requesting_account_id = true
             }
             module "my_module" {
               source = "./mymodule"
@@ -136,4 +139,4 @@ When terraform has an inbuilt [machine readable
 output](https://github.com/hashicorp/terraform/pull/3170), expect a refactor of
 this tool to use that instead of tfjson.
 
-When researching testing strategies for Terraform, we found [Carlos Nunez](https://github.com/carlosonunez)'s article [Top 3 Terraform Testing Strategies...](https://www.contino.io/insights/top-3-terraform-testing-strategies-for-ultra-reliable-infrastructure-as-code) to be great inspiration and very informative. 
+When researching testing strategies for Terraform, we found [Carlos Nunez](https://github.com/carlosonunez)'s article [Top 3 Terraform Testing Strategies...](https://www.contino.io/insights/top-3-terraform-testing-strategies-for-ultra-reliable-infrastructure-as-code) to be great inspiration and very informative.
