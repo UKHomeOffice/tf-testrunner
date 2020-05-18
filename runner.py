@@ -55,9 +55,7 @@ class Runner(object):
         self._removetmpdir()
 
     def snippet_to_json(self):
-        # return subprocess.check_output(["tfjson", "%s/mytf.tfplan" % (self.tmpdir)])
-        return subprocess.check_output(
-            ["terraform", "show", "-no-color", "-json", "%s/mytf.tfplan" % (self.tmpdir)])
+        return subprocess.check_output(["terraform", "show", "-no-color", "-json", "%s/mytf.tfplan" % (self.tmpdir)])
 
     @staticmethod
     def json_to_dict(json_file):

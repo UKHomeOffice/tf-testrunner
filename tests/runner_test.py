@@ -46,7 +46,6 @@ class TestRunnerMethods(unittest.TestCase):
     @mock.patch("subprocess.check_output")
     def test_snippet_to_json(self, subprocess_mock):
         Runner.snippet_to_json(self)
-        # subprocess_mock.assert_called_once_with(['tfjson', self.tmpdir + '/mytf.tfplan'])
         subprocess_mock.assert_called_once_with(
             ['terraform', 'show', '-no-color', '-json', self.tmpdir + '/mytf.tfplan'])
 
@@ -77,28 +76,18 @@ class TestE2E(unittest.TestCase):
         """
         self.result = Runner(self.snippet).result
 
-    # def test_root_destroy(self):
-    #     self.assertEqual(self.result["destroy"], False)
-
     def test_terraform_version(self):
+        print(self.result)
         self.assertEqual(self.result["terraform_version"], "0.12.25")
 
     def test_create_action(self):
         self.assertEqual(self.result["resource_changes"][0]["change"]["actions"], ['create'])
 
     def test_instance_type(self):
-        # self.assertEqual(self.result["aws_instance.foo"]["instance_type"], "t2.micro")
         self.assertEqual(self.result["resource_changes"][0]["change"]["after"]["instance_type"], "t2.micro")
 
     def test_ami(self):
-        # self.assertEqual(self.result["aws_instance.foo"]["ami"], "foo")
         self.assertEqual(self.result["resource_changes"][0]["change"]["after"]["ami"], "foo")
-
-    # def test_destroy(self):
-    #     self.assertEqual(self.result["aws_instance.foo"]["destroy"], False)
-    #
-    # def test_destroy_tainted(self):
-    #     self.assertEqual(self.result["aws_instance.foo"]["destroy_tainted"], False)
 
 
 class TestE2EModule(unittest.TestCase):
@@ -120,12 +109,8 @@ class TestE2EModule(unittest.TestCase):
         """
         self.result = Runner(self.snippet).result
 
-    # def test_root_destroy(self):
-    #     self.assertEqual(self.result["destroy"], False)
-    # def test_whatever(self):
-    #     print(self.result)
-
     def test_root_module(self):
+        print(self.result)
         self.assertEqual(self.result["configuration"]["root_module"]["module_calls"]["foo"]["source"], "./mymodule")
 
 
