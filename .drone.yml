@@ -37,9 +37,8 @@ pipeline:
     commands:
       - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
       - docker tag quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:latest
-      - docker push quay.io/ukhomeofficedigital/tf-testrunner:latest
     secrets:
-      - DOCKER_PASSWORD      
+      - DOCKER_PASSWORD
     when:
       branch: master
       event: push
