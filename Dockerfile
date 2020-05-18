@@ -1,8 +1,3 @@
-# use go to get and build a static binary of tfjson
-# FROM golang:1 as tfjson
-# RUN go get github.com/wybczu/tfjson
-# RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' github.com/wybczu/tfjson
-
 ## build our app in python
 FROM quay.io/ukhomeofficedigital/centos-base:v0.5.14.1
 
@@ -21,7 +16,6 @@ RUN yum update --quiet -y \
     sqlite-devel \
     && yum clean all --quiet -y
 
-# COPY --from=tfjson /go/tfjson /usr/local/bin
 COPY --from=hashicorp/terraform:0.12.25 /bin/terraform /usr/local/bin
 
 WORKDIR /app

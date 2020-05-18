@@ -30,7 +30,7 @@ pipeline:
     when:
       event: push
 
-  tag_as_latest_quay:
+  tag_as_drone_build_number:
     image: docker
     environment:
       - DOCKER_HOST=tcp://172.17.0.1:2375
