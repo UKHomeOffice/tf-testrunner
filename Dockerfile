@@ -22,7 +22,7 @@ RUN yum update --quiet -y \
     && yum clean all --quiet -y
 
 COPY --from=tfjson /go/tfjson /usr/local/bin
-COPY --from=hashicorp/terraform:0.11.14 /bin/terraform /usr/local/bin
+COPY --from=hashicorp/terraform:0.12.25 /bin/terraform /usr/local/bin
 
 WORKDIR /app
 
