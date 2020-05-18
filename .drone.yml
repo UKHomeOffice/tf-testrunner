@@ -36,7 +36,8 @@ pipeline:
       - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
       - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
-      - docker tag quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:latest
+      - docker tag quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_BUILD_NUMBER}
+      - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_BUILD_NUMBER}
     secrets:
       - DOCKER_PASSWORD
     when:

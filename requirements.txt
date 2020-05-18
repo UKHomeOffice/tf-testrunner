@@ -1,8 +1,8 @@
 # Linters
-pylint
+pylint==2.4.4
 
 # Testing
-coverage
+coverage==5.0.3
 
 # CI/CD
 drone
