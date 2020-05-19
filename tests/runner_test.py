@@ -74,7 +74,8 @@ class TestE2E(unittest.TestCase):
           instance_type = "t2.micro"
         }
         """
-        self.result = Runner(self.snippet).result
+        self.runner = Runner(self.snippet)
+        self.result = self.runner.result
 
     def test_terraform_version(self):
         print(self.result)
@@ -84,10 +85,10 @@ class TestE2E(unittest.TestCase):
         self.assertEqual(self.result["resource_changes"][0]["change"]["actions"], ['create'])
 
     def test_instance_type(self):
-        self.assertEqual(self.result["resource_changes"][0]["change"]["after"]["instance_type"], "t2.micro")
+        self.assertEqual(self.runner.get_value("aws_instance.foo", "instance_type"), "t2.micro")
 
     def test_ami(self):
-        self.assertEqual(self.result["resource_changes"][0]["change"]["after"]["ami"], "foo")
+        self.assertEqual(self.runner.get_value("aws_instance.foo", "ami"), "foo")
 
 
 class TestE2EModule(unittest.TestCase):
@@ -107,12 +108,18 @@ class TestE2EModule(unittest.TestCase):
             source = "./mymodule"
         }
         """
-        self.result = Runner(self.snippet).result
+        self.runner = Runner(self.snippet)
+        self.result = self.runner.result
 
     def test_root_module(self):
         print(self.result)
         self.assertEqual(self.result["configuration"]["root_module"]["module_calls"]["foo"]["source"], "./mymodule")
 
+    def test_instance_type(self):
+        self.assertEqual(self.runner.get_value("module.foo.aws_instance.foo", "instance_type"), "t2.micro")
+
+    def test_ami(self):
+        self.assertEqual(self.runner.get_value("module.foo.aws_instance.foo", "ami"), "foo")
 
 if __name__ == '__main__':
     unittest.main()
