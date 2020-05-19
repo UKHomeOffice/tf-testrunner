@@ -7,7 +7,7 @@ import shutil
 import subprocess
 import tempfile
 import glob
-from tf_assertion_helper import finder
+from tf_assertion_helper import finder, get_value
 
 
 class Runner(object):
@@ -56,6 +56,9 @@ class Runner(object):
 
     def snippet_to_json(self):
         return subprocess.check_output(["terraform", "show", "-no-color", "-json", "%s/mytf.tfplan" % (self.tmpdir)])
+
+    def get_value(self, match_address, match_value):
+        return get_value(self.result, match_address, match_value)
 
     @staticmethod
     def json_to_dict(json_file):
