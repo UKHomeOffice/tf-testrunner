@@ -3,6 +3,8 @@
 
 tf-testrunner parses [Terraform configuration](https://www.terraform.io/docs/configuration/index.html) to Python and then runs your tests.
 
+Current terraform upgade tag is 32.
+
 ### How it works:
 
 Testrunner automates the output of the command ```terraform plan```, saves its
@@ -21,7 +23,7 @@ for example Terraform projects that use
 Add a build step
 ```yaml
   test:
-    image: quay.io/ukhomeofficedigital/tf-testrunner
+    image: quay.io/ukhomeofficedigital/tf-testrunner:32
     commands: python -m unittest tests/*_test.py
 ``````
 ```shell
@@ -30,7 +32,7 @@ drone exec
 
 ### Docker (~> 1.13) in-situ execution
 ```shell
-docker run --rm -v `pwd`:/mytests -w /mytests quay.io/ukhomeofficedigital/tf-testrunner
+docker run --rm -v `pwd`:/mytests -w /mytests quay.io/ukhomeofficedigital/tf-testrunner:32
 ```
 
 ### Python (\~> 3.6.3) & Go (\~> 1.9.2) execution
@@ -67,14 +69,22 @@ class TestMyModule(unittest.TestCase):
               source = "./mymodule"
             }
         """
-        self.result = Runner(self.snippet).result
+        self.runner = Runner(self.snippet)
+            self.result = self.runner.result
 
-    def test_root_destroy(self):
-        print (self.result)
-        self.assertEqual(self.result["destroy"], False)
+    def test_terraform_version(self):
+        print(self.result)
+        self.assertEqual(self.result["terraform_version"], "0.12.25")
+
+    def test_root_module(self):
+        self.assertEqual(self.result["configuration"]["root_module"]["module_calls"]["my_module"]["source"], "./mymodule")
 
     def test_instance_type(self):
-        self.assertEqual(self.result['my_module']["aws_instance.foo"]["instance_type"], "t2.micro")
+        self.assertEqual(self.runner.get_value("module.my_module.aws_instance.foo", "instance_type"), "t2.micro")
+
+    def test_ami(self):
+        self.assertEqual(self.runner.get_value("module.my_module.aws_instance.foo", "ami"), "foo")
+
 
 if __name__ == '__main__':
     unittest.main()
@@ -89,14 +99,73 @@ resource "aws_instance" "foo" {
 
 **[More examples](./examples)**
 
-## Additional Usage
+## Additional Usage Mothod get_vaule
+
+To handle the terraform output plan of json [structure](https://www.terraform.io/docs/internals/json-format.html), we are only interested in ``resource_changes`` sections with arrays of resources to be changed. Helper method  ```get_vaule``` will get first parmater of module resource name and its change value in second parameter.
+See example snippet.
+
+tests/tf_assertion_helper_test.py
+```hcl-terraform
+import unittest
+from tf_assertion_helper import get_value
+
+class TestGetValue(unittest.TestCase):
+    def setUp(self):
+        self.snippet = {
+            "format_version": "0.1",
+            "terraform_version": "0.12.25",
+            "planned_values": {},
+            "resource_changes": [{
+                "address": "module.rds_alarms.aws_cloudwatch_log_group.lambda_log_group_slack",
+                "module_address": "module.rds_alarms",
+                "mode": "managed",
+                "type": "aws_cloudwatch_log_group",
+                "name": "lambda_log_group_slack",
+                "provider_name": "aws",
+                "change": {
+                    "actions": [
+                        "create"
+                    ],
+                    "before": "None",
+                    "after": {
+                        "kms_key_id": "None",
+                        "name": "/aws/lambda/foo-lambda-slack-notprod",
+                        "name_prefix": "None",
+                        "retention_in_days": 14,
+                        "tags": {
+                            "Name": "lambda-log-group-slack-1234-apps"
+                        }
+                    },
+                    "after_unknown": {
+                        "arn": "blah",
+                        "id": "blah",
+                        "tags": {}
+                    }
+                }
+            }]
+        }
+
+    def test_happy_path(self):
+        self.assertEqual(get_value(self.snippet, "module.rds_alarms.aws_cloudwatch_log_group.lambda_log_group_slack", "retention_in_days"), 14)
+
+    def test_unhappy_path(self):
+        self.assertNotEqual(get_value(self.snippet, "module.rds_alarms.aws_cloudwatch_log_group.lambda_log_group_slack", "kms_key_id"), "something_not_there")
+
+
+if __name__ == '__main__':
+    unittest.main()
+
+```
+
+
+## Additional Usage Methos finder
 
 To handle the occurrence of unique numbers in keys after parsing, use the assertion helper method ```finder```.
 
 tests/tf_assertion_helper_test.py
 ```hcl-terraform
 import unittest
-from runner import Runner
+from runner import Runner,
 
 parent = {
     'egress.482069346.cidr_blocks.#': '1',
@@ -132,6 +201,12 @@ if __name__ == '__main__':
 ```
 
 ## Acknowledgements
+
+*UPDATE TF12*
+
+Following [tfjson](https://github.com/palantir/tfjson) is no longer support for terraform 12. This is the reason terraform 12 can only use default output of terraform plan in json format. [Use terraform show -json planned_file](https://www.terraform.io/docs/internals/json-format.html)
+
+*OLD TF11*
 
 We leverage [tfjson](https://github.com/palantir/tfjson) to get a machine
 readable output of the `terraform plan` which we can then evaluate against.

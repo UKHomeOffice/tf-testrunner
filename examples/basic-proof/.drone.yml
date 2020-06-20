@@ -1,5 +1,5 @@
 pipeline:
 
   test:
-    image: quay.io/ukhomeofficedigital/tf-testrunner
+    image: quay.io/ukhomeofficedigital/tf-testrunner:32
     commands: python -m unittest tests/*_test.py
