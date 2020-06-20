@@ -70,7 +70,7 @@ class TestMyModule(unittest.TestCase):
             }
         """
         self.runner = Runner(self.snippet)
-            self.result = self.runner.result
+        self.result = self.runner.result
 
     def test_terraform_version(self):
         print(self.result)
@@ -165,7 +165,7 @@ To handle the occurrence of unique numbers in keys after parsing, use the assert
 tests/tf_assertion_helper_test.py
 ```hcl-terraform
 import unittest
-from runner import Runner,
+from runner import Runner
 
 parent = {
     'egress.482069346.cidr_blocks.#': '1',
