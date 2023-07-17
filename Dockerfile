@@ -38,9 +38,9 @@ RUN pip install --no-cache-dir --quiet -r requirements.txt
 COPY . .
 
 #14
-RUN pylint **/*.py \
+RUN pylint **/*.py
 #15
-RUN coverage run -m unittest tests/*_test.py \
+RUN coverage run -m unittest tests/*_test.py
 #16
 RUN coverage report
 
