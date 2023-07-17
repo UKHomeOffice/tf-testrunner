@@ -1,6 +1,16 @@
 ## build our app in python
 FROM python:3.8-alpine3.18
 
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache --virtual .run-deps \
+       python3 \
+       py3-pip
+
+RUN apk update \
+    && apk upgrade \
+    && rm -rf /var/cache/apk /root/.cache
+
 
 COPY --from=hashicorp/terraform:latest /bin/terraform /usr/local/bin
 
