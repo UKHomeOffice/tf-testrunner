@@ -22,6 +22,8 @@ COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN python -m pip install --no-cache-dir --quiet -r requirements.txt
 
+COPY . .
+
 RUN pylint **/*.py \
     && coverage run -m unittest tests/*_test.py \
     && coverage report
