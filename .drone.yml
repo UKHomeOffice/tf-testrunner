@@ -1,45 +1,59 @@
-pipeline:
+---
+global-variables:
+  acp-docker-image: &acp-docker-image 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind:latest
+  vault-image: &vault-image docker.digital.homeoffice.gov.uk/dq/dq-vault-awscli:1.43
 
-  build:
-    image: docker
-    environment:
-      - DOCKER_HOST=tcp://172.17.0.1:2375
-    commands:
-      - docker build -t quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} .
-    when:
-      event: push
+kind: pipeline
+name: default
+type: kubernetes
 
-  image_to_quay:
-    image: docker
-    environment:
-      - DOCKER_HOST=tcp://172.17.0.1:2375
-    commands:
-      - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
-      - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
-    secrets:
-      - DOCKER_PASSWORD
-    when:
-      event: push
+platform:
+  os: linux
+  arch: amd64
 
+steps:
+- name: build
+  pull: if-not-exists
+  image: *acp-docker-image
+  environment:
+    - DOCKER_HOST=tcp://172.17.0.1:2375
+  commands:
+    - docker build -t quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} .
+  when:
+    event: push
 
-  test_example_implementation:
-    image: quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
-    commands:
-      - cd examples/basic-proof
-      - python -m unittest tests/*_test.py
-    when:
-      event: push
+- name: image_to_quay
+  pull: if-not-exists
+  image: *acp-docker-image
+  environment:
+    - DOCKER_HOST=tcp://172.17.0.1:2375
+  commands:
+    - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
+    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
+  secrets:
+    - DOCKER_PASSWORD
+  when:
+    event: push
 
-  tag_as_drone_build_number:
-    image: docker
-    environment:
-      - DOCKER_HOST=tcp://172.17.0.1:2375
-    commands:
-      - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
-      - docker tag quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_BUILD_NUMBER}
-      - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_BUILD_NUMBER}
-    secrets:
-      - DOCKER_PASSWORD
-    when:
-      branch: master
-      event: push
+- name: test_example_implementation
+  image: quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
+  commands:
+    - cd examples/basic-proof
+    - python -m unittest tests/*_test.py
+  when:
+    event: push
+
+- name: tag_as_drone_build_number
+  pull: if-not-exists
+  image: *acp-docker-image
+  environment:
+    - DOCKER_HOST=tcp://172.17.0.1:2375
+  commands:
+    - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
+    - docker tag quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_BUILD_NUMBER}
+    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_BUILD_NUMBER}
+  secrets:
+    - DOCKER_PASSWORD
+  when:
+    branch: master
+    event: push
