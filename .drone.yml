@@ -1,7 +1,6 @@
 ---
 global-variables:
   acp-docker-image: &acp-docker-image 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind:latest
-  vault-image: &vault-image docker.digital.homeoffice.gov.uk/dq/dq-vault-awscli:1.43
 
 kind: pipeline
 name: default
@@ -32,18 +31,30 @@ steps:
   when:
     event: push
 
-- name: image_to_quay
+#- name: image_to_quay
+#  pull: if-not-exists
+#  image: *acp-docker-image
+#  environment:
+#    - DOCKER_HOST=tcp://172.17.0.1:2375
+#  commands:
+#    - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
+#    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
+#  secrets:
+#    - DOCKER_PASSWORD
+#  when:
+#    event: push
+
+- name: trivy-scan
   pull: if-not-exists
-  image: *acp-docker-image
-  environment:
-    - DOCKER_HOST=tcp://172.17.0.1:2375
+  image: quay.io/ukhomeofficedigital/trivyscanner:master
   commands:
-    - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
-    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
-  secrets:
-    - DOCKER_PASSWORD
+  - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
   when:
-    event: push
+    branch:
+      exclude:
+      - master
+    event:
+    - push
 
 - name: test_example_implementation
   image: quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
@@ -53,17 +64,27 @@ steps:
   when:
     event: push
 
-- name: tag_as_drone_build_number
+- name: build-master
   pull: if-not-exists
   image: *acp-docker-image
+  settings:
+    dockerfile: Dockerfile
+    force_tag: true
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/tf-testrunner
+    tags:
+    - latest
+    - b${DRONE_BUILD_NUMBER}
+    cache_from: quay.io/ukhomeofficedigital/tf-testrunner:latest
   environment:
-    - DOCKER_HOST=tcp://172.17.0.1:2375
-  commands:
-    - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
-    - docker tag quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_BUILD_NUMBER}
-    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_BUILD_NUMBER}
-  secrets:
-    - DOCKER_PASSWORD
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
   when:
-    branch: master
-    event: push
+    branch:
+    - master
+    event:
+    - promote
+    target:
+    - production
