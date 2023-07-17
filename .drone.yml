@@ -15,7 +15,7 @@ steps:
   pull: if-not-exists
   image: *acp-docker-image
   commands:
-    - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done
+    - /usr/local/bin/wait
     - docker build -t tf-testrunner:$${DRONE_COMMIT_SHA} .
   when:
     event: push
