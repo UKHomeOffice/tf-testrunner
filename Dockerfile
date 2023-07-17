@@ -1,6 +1,6 @@
 ## build our app in python
 #1
-FROM python:3.8-alpine3.18
+FROM alpine
 
 #2
 RUN apk update
