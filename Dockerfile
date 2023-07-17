@@ -31,7 +31,8 @@ COPY requirements.txt .
 #11
 RUN pip install --upgrade pip
 #12
-RUN python -m pip install --no-cache-dir --quiet -r requirements.txt
+#RUN python -m pip install --no-cache-dir --quiet -r requirements.txt
+RUN pip install --no-cache-dir --quiet -r requirements.txt
 
 #13
 COPY . .
