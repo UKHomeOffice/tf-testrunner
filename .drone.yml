@@ -11,23 +11,12 @@ platform:
   arch: amd64
 
 steps:
-- name: build
+- name: build_docker_image
   pull: if-not-exists
   image: *acp-docker-image
-  settings:
-    dockerfile: Dockerfile
-    force_tag: true
-    registry: quay.io
-    repo: quay.io/ukhomeofficedigital/tf-testrunner
-    tags:
-    - ${DRONE_COMMIT_SHA}
-    - dev-${DRONE_BUILD_NUMBER}
-    cache_from: quay.io/ukhomeofficedigital/tf-testrunner:latest
-  environment:
-    DOCKER_PASSWORD:
-      from_secret: docker_password
-    DOCKER_USERNAME:
-      from_secret: docker_username
+  commands:
+    - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done
+    - docker build -t tf-testrunner:$${DRONE_COMMIT_SHA} .
   when:
     event: push
 
