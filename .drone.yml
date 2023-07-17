@@ -77,3 +77,7 @@ steps:
     - promote
     target:
     - production
+
+services:
+- name: docker
+  image: *acp-docker-image
