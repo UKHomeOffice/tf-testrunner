@@ -35,7 +35,7 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --quiet -r requirements.txt
 
 #13
-#COPY . .
+COPY . .
 
 #14
 RUN pylint **/*.py
