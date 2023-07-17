@@ -19,6 +19,7 @@ WORKDIR /app
 # Install pip modules
 COPY requirements.txt .
 
+RUN pip install --upgrade pip
 RUN python -m pip install --no-cache-dir --quiet -r requirements.txt
 
 RUN pylint **/*.py \
