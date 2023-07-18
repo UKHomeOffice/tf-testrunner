@@ -43,14 +43,17 @@ COPY . .
 RUN python -m build
 
 #16
-RUN pylint **/*.py
+RUN pip install tf_testrunner
+
 #17
-RUN coverage run -m unittest tests/*_test.py
+RUN pylint **/*.py
 #18
+RUN coverage run -m unittest tests/*_test.py
+#19
 RUN coverage report
 
-#19
+#20
 RUN python -m pip install .
 
-#20
+#21
 ENTRYPOINT python -m unittest tests/*_test.py

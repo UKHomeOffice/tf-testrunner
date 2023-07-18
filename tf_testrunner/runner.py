@@ -10,7 +10,7 @@ import glob
 from tf_assertion_helper import finder, get_value
 
 
-class Runner(object):
+class Runner:
     """Terraform converter, converting .tf files into JSON and Python"""
 
     def __init__(self, snippet):
