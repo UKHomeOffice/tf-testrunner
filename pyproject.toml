@@ -6,13 +6,13 @@ build-backend = "setuptools.build_meta"
 name = "aws-terraform-test-runner"
 version = "0.2"
 description = "Test Runner for unit testing Terraform Config"
-url = "https://github.com/UKHomeOffice/dq-aws-transition-testing"
+#url = "https://github.com/UKHomeOffice/dq-aws-transition-testing"
 authors = [
       { name = "UK Home Office" }
 ]
 license = { text = "MIT" }
 #packages = ['.']
-zip_safe = false
+#zip_safe = false
 
 dependencies = [
       # Linters
