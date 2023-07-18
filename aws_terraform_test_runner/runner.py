@@ -27,9 +27,8 @@ class Runner:
         subprocess.call(["terraform", "init", self.tmpdir])
 
     def _write_test_tf(self):
-        tmp_mytf_file = open(f"{self.tmpdir}/mytf.tf", "w")
-        tmp_mytf_file.write(self.snippet)
-        tmp_mytf_file.close()
+        with open(f"{self.tmpdir}/mytf.tf", "w", encoding="utf-8") as tmp_mytf_file:
+            tmp_mytf_file.write(self.snippet)
 
     def _terraform_plan(self):
         os.system(f"terraform plan -input=false -out={self.tmpdir}/mytf.tfplan {self.tmpdir}")
