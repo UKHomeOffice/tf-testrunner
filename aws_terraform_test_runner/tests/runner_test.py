@@ -32,7 +32,7 @@ class TestRunnerMethods(unittest.TestCase):
 
     @mock.patch("os.system")
     def test_teraform_plan(self, os_mock):
-        Runner._teraform_plan(self)
+        Runner._terraform_plan(self)
         os_mock.assert_called_once_with(
             "terraform plan -input=false -out=" + self.tmpdir + "/mytf.tfplan " + self.tmpdir)
 

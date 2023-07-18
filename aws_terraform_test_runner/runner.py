@@ -27,28 +27,28 @@ class Runner:
         subprocess.call(["terraform", "init", self.tmpdir])
 
     def _write_test_tf(self):
-        tmp_mytf_file = open("%s/mytf.tf" % (self.tmpdir), "w")
+        tmp_mytf_file = open(f"{self.tmpdir}/mytf.tf", "w")
         tmp_mytf_file.write(self.snippet)
         tmp_mytf_file.close()
 
-    def _teraform_plan(self):
-        os.system("terraform plan -input=false -out=%s/mytf.tfplan %s" % (self.tmpdir, self.tmpdir))
+    def _terraform_plan(self):
+        os.system(f"terraform plan -input=false -out={self.tmpdir}/mytf.tfplan {self.tmpdir}")
 
     def _copy_tf_files(self):
         os.system("rm -rf .terraform/modules")
-        os.system("mkdir %s/mymodule" % self.tmpdir)
+        os.system(f"mkdir {self.tmpdir}/mymodule")
 
         files = glob.iglob(os.path.join(sys.path[0], "*.tf"))
         for file in files:
             if os.path.isfile(file):
-                shutil.copy(file, "%s/mymodule" % (self.tmpdir))
+                shutil.copy(file, f"{self.tmpdir}%s/mymodule")
 
     def run(self):
         self._mktmpdir()
         self._write_test_tf()
         self._copy_tf_files()
         self._terraform_init()
-        self._teraform_plan()
+        self._terraform_plan()
         json_snippet = self.snippet_to_json()
         result = self.json_to_dict(json_snippet)
         self.result = result
@@ -56,7 +56,7 @@ class Runner:
 
     def snippet_to_json(self):
         return subprocess.check_output(["terraform", "show", "-no-color", "-json",
-                                        "%s/mytf.tfplan" % (self.tmpdir)])
+                                        f"{self.tmpdir}/mytf.tfplan"])
 
     def get_value(self, match_address, match_value):
         return get_value(self.result, match_address, match_value)
