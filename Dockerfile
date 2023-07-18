@@ -23,35 +23,36 @@ COPY --from=hashicorp/terraform:latest /bin/terraform /usr/local/bin
 
 #9
 WORKDIR /app
+#10
 ENV PYTHONPATH /app/aws_terraform_test_runner
 
 # Install pip modules
-#10
+#11
 COPY requirements.txt .
 
-#11
-RUN pip install --upgrade pip
 #12
+RUN pip install --upgrade pip
+#13
 #RUN python -m pip install --no-cache-dir --quiet -r requirements.txt
 RUN pip install --no-cache-dir --quiet -r requirements.txt
-#13
+#14
 RUN pip install --upgrade build
 
-#14
+#15
 COPY . .
 
-#15
+#16
 RUN python -m build
 
-#16
-RUN pylint **/*.py
 #17
-RUN coverage run -m unittest tests/*_test.py
+RUN pylint **/*.py
 #18
+RUN coverage run -m unittest tests/*_test.py
+#19
 RUN coverage report
 
-#19
+#20
 RUN python -m pip install .
 
-#20
+#21
 ENTRYPOINT python -m unittest tests/*_test.py

@@ -40,7 +40,7 @@ class Runner:
         files = glob.iglob(os.path.join(sys.path[0], "*.tf"))
         for file in files:
             if os.path.isfile(file):
-                shutil.copy(file, f"{self.tmpdir}%s/mymodule")
+                shutil.copy(file, f"{self.tmpdir}/mymodule")
 
     def run(self):
         self._mktmpdir()
