@@ -43,7 +43,7 @@ COPY . .
 RUN python -m build
 
 #16
-RUN pip install tf_testrunner
+RUN pip install aws-terraform-test-runner
 
 #17
 RUN pylint **/*.py
