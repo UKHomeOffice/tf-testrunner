@@ -31,7 +31,7 @@ class Runner:
             tmp_mytf_file.write(self.snippet)
 
     def _terraform_plan(self):
-        os.system(f"terraform plan -input=false -out={self.tmpdir}/mytf.tfplan {self.tmpdir}")
+        os.system(f"terraform plan -input=false -out={self.tmpdir}/mytf.tfplan")
 
     def _copy_tf_files(self):
         os.system("rm -rf .terraform/modules")
