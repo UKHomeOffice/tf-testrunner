@@ -97,7 +97,7 @@ resource "aws_instance" "foo" {
 }
 ```
 
-**[More examples](aws-terraform-test-runner/examples)**
+**[More examples](aws_terraform_test_runner/examples)**
 
 ## Additional Usage Method get_value
 

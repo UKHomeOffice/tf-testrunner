@@ -42,8 +42,9 @@ COPY . .
 #15
 RUN python -m build
 
-#16
-RUN pip install aws-terraform-test-runner-0.2
+#16 # DELETE ME
+RUN env
+#RUN pip install aws-terraform-test-runner-0.2
 
 #17
 RUN pylint **/*.py

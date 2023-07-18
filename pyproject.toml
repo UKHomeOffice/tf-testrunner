@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "aws-terraform-test-runner"
+name = "aws_terraform_test_runner"
 version = "0.2"
 description = "Test Runner for unit testing Terraform Config"
 #url = "https://github.com/UKHomeOffice/dq-aws-transition-testing"
