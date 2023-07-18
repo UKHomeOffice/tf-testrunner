@@ -42,19 +42,15 @@ COPY . .
 #15
 RUN python -m build
 
-#16 # DELETE ME
-RUN env
-#RUN pip install aws-terraform-test-runner-0.2
-
-#17
+#16
 RUN pylint **/*.py
-#18
+#17
 RUN coverage run -m unittest tests/*_test.py
-#19
+#18
 RUN coverage report
 
-#20
+#19
 RUN python -m pip install .
 
-#21
+#20
 ENTRYPOINT python -m unittest tests/*_test.py
