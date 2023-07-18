@@ -23,6 +23,7 @@ COPY --from=hashicorp/terraform:latest /bin/terraform /usr/local/bin
 
 #9
 WORKDIR /app
+ENV PYTHONPATH /app/aws_terraform_test_runner
 
 # Install pip modules
 #10
