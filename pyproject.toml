@@ -10,7 +10,7 @@ url = "https://github.com/UKHomeOffice/dq-aws-transition-testing"
 authors = [
       { name = "UK Home Office" }
 ]
-license = "MIT"
+license = { text = "MIT" }
 #packages = ['.']
 zip_safe = false
 
