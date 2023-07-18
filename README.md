@@ -97,7 +97,7 @@ resource "aws_instance" "foo" {
 }
 ```
 
-**[More examples](tf-testrunner/examples)**
+**[More examples](tf_testrunner/examples)**
 
 ## Additional Usage Mothod get_vaule
 
