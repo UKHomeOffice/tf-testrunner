@@ -79,7 +79,7 @@ class TestE2E(unittest.TestCase):
 
     def test_terraform_version(self):
         print(self.result)
-        self.assertEqual(self.result["terraform_version"], "0.12.25")
+        self.assertEqual(self.result["terraform_version"], "1.5.3")
 
     def test_create_action(self):
         self.assertEqual(self.result["resource_changes"][0]["change"]["actions"], ['create'])
