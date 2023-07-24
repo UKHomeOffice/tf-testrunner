@@ -54,7 +54,8 @@ class Runner:
         self._removetmpdir()
 
     def snippet_to_json(self):
-        return subprocess.check_output(["terraform", f"-chdir={self.tmpdir}", "show", "-no-color", "-json", f"{self.tmpdir}/mytf.tfplan"])
+        return subprocess.check_output(["terraform", f"-chdir={self.tmpdir}", "show",
+                                        "-no-color", "-json", f"{self.tmpdir}/mytf.tfplan"])
 
     def get_value(self, match_address, match_value):
         return get_value(self.result, match_address, match_value)
