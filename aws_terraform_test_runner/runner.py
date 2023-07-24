@@ -24,14 +24,14 @@ class Runner:
         self.tmpdir = tempfile.mkdtemp()
 
     def _terraform_init(self):
-        subprocess.call([f"terraform -chdir={self.tmpdir} init"])
+        subprocess.call(["terraform", f"-chdir={self.tmpdir}", "init"])
 
     def _write_test_tf(self):
         with open(f"{self.tmpdir}/mytf.tf", "w", encoding="utf-8") as tmp_mytf_file:
             tmp_mytf_file.write(self.snippet)
 
     def _terraform_plan(self):
-        os.system(f"terraform plan -chdir={self.tmpdir} -input=false -out={self.tmpdir}/mytf.tfplan")
+        os.system(f"terraform -chdir={self.tmpdir} plan -input=false -out={self.tmpdir}/mytf.tfplan")
 
     def _copy_tf_files(self):
         os.system("rm -rf .terraform/modules")
@@ -54,8 +54,7 @@ class Runner:
         self._removetmpdir()
 
     def snippet_to_json(self):
-        return subprocess.check_output([f"terraform -chdir={self.tmpdir} show ",
-                                        f"-no-color -json {self.tmpdir}/mytf.tfplan"])
+        return subprocess.check_output(["terraform", f"-chdir={self.tmpdir}", "show", "-no-color", "-json", f"{self.tmpdir}/mytf.tfplan"])
 
     def get_value(self, match_address, match_value):
         return get_value(self.result, match_address, match_value)
