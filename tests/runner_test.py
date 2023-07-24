@@ -65,7 +65,6 @@ class TestE2E(unittest.TestCase):
             secret_key = "bar"
             profile = "foo"
             skip_credentials_validation = true
-            skip_get_ec2_platforms = true
             skip_requesting_account_id = true
         }
 
