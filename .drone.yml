@@ -58,8 +58,7 @@ steps:
 - name: test_example_implementation
   image: quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
   commands:
-    - sleep 30
-    - cd examples/basic-proof
+    - cd examples/basic_proof
     - python -m unittest tests/*_test.py
   when:
     branch:
