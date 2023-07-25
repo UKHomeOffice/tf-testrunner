@@ -11,9 +11,7 @@ class TestE2E(unittest.TestCase):
               region = "eu-west-2"
               access_key = "foo"
               secret_key = "bar"
-              profile = "foo"
               skip_credentials_validation = true
-              skip_get_ec2_platforms = true
               skip_requesting_account_id = true
             }
 
