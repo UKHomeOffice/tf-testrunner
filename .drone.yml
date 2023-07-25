@@ -28,7 +28,7 @@ steps:
   pull: if-not-exists
   image: *acp-docker-image
   commands:
-    - docker login --username=$${DOCKER_USERNAME} --password-stdin=$${DOCKER_PASSWORD} quay.io
+    - docker login --username=$${DOCKER_USERNAME} --password=$${DOCKER_PASSWORD} quay.io
     - docker tag tf-testrunner quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
     - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
   environment:
