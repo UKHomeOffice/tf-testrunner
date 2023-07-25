@@ -24,23 +24,23 @@ steps:
 #    event:
 #    - push
 
-- name: image_to_quay
-  pull: if-not-exists
-  image: *acp-docker-image
-  environment:
-    - DOCKER_HOST=tcp://172.17.0.1:2375
-  commands:
-    - docker login -u=$${DOCKER_PASSWORD} -p=$${DOCKER_PASSWORD} quay.io
-    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
-  secrets:
-    - DOCKER_USERNAME
-    - DOCKER_PASSWORD
-  when:
-    branch:
-      exclude:
-      - master
-    event:
-    - push
+#- name: image_to_quay
+#  pull: if-not-exists
+#  image: *acp-docker-image
+#  environment:
+#    - DOCKER_HOST=tcp://172.17.0.1:2375
+#  commands:
+#    - docker login -u=$${DOCKER_PASSWORD} -p=$${DOCKER_PASSWORD} quay.io
+#    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
+#  secrets:
+#    - DOCKER_USERNAME
+#    - DOCKER_PASSWORD
+#  when:
+#    branch:
+#      exclude:
+#      - master
+#    event:
+#    - push
 
 - name: trivy-scan
   pull: if-not-exists
