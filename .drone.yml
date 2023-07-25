@@ -16,7 +16,7 @@ steps:
   image: *acp-docker-image
   commands:
     - /usr/local/bin/wait
-    - docker build -t tf-testrunner:$${DRONE_COMMIT_SHA} .
+    - docker build -t tf-testrunner .
   when:
     branch:
       exclude:
@@ -27,11 +27,9 @@ steps:
 - name: image_to_quay
   pull: if-not-exists
   image: *acp-docker-image
-#  environment:
-#    - DOCKER_HOST=tcp://172.17.0.1:2375
   commands:
     - docker login -u=$${DOCKER_USERNAME} -p=$${DOCKER_PASSWORD} quay.io
-    - docker tag tf-testrunner:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
+    - docker tag tf-testrunner quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
     - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
   environment:
     DOCKER_USERNAME:
