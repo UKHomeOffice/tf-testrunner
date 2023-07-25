@@ -11,18 +11,18 @@ platform:
   arch: amd64
 
 steps:
-#- name: build_docker_image
-#  pull: if-not-exists
-#  image: *acp-docker-image
-#  commands:
-#    - /usr/local/bin/wait
-#    - docker build -t tf-testrunner:$${DRONE_COMMIT_SHA} .
-#  when:
-#    branch:
-#      exclude:
-#      - master
-#    event:
-#    - push
+- name: build_docker_image
+  pull: if-not-exists
+  image: *acp-docker-image
+  commands:
+    - /usr/local/bin/wait
+    - docker build -t tf-testrunner:$${DRONE_COMMIT_SHA} .
+  when:
+    branch:
+      exclude:
+      - master
+    event:
+    - push
 
 - name: image_to_quay
   pull: if-not-exists
