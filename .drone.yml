@@ -32,9 +32,11 @@ steps:
   commands:
     - docker login -u=$${DOCKER_USERNAME} -p=$${DOCKER_PASSWORD} quay.io
     - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
-  secrets:
-    - DOCKER_USERNAME
-    - DOCKER_PASSWORD
+  environment:
+    DOCKER_USERNAME:
+      from_secret: DOCKER_USERNAME
+    DOCKER_PASSWORD:
+      from_secret: DOCKER_PASSWORD
   when:
     branch:
       exclude:
