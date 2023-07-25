@@ -18,20 +18,29 @@ steps:
     - /usr/local/bin/wait
     - docker build -t tf-testrunner:$${DRONE_COMMIT_SHA} .
   when:
-    event: push
+    branch:
+      exclude:
+      - master
+    event:
+    - push
 
-#- name: image_to_quay
-#  pull: if-not-exists
-#  image: *acp-docker-image
-#  environment:
-#    - DOCKER_HOST=tcp://172.17.0.1:2375
-#  commands:
-#    - docker login -u="ukhomeofficedigital+dqbot" -p=$${DOCKER_PASSWORD} quay.io
-#    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
-#  secrets:
-#    - DOCKER_PASSWORD
-#  when:
-#    event: push
+- name: image_to_quay
+  pull: if-not-exists
+  image: *acp-docker-image
+  environment:
+    - DOCKER_HOST=tcp://172.17.0.1:2375
+  commands:
+    - docker login -u=$${DOCKER_PASSWORD} -p=$${DOCKER_PASSWORD} quay.io
+    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
+  secrets:
+    - DOCKER_USERNAME
+    - DOCKER_PASSWORD
+  when:
+    branch:
+      exclude:
+      - master
+    event:
+    - push
 
 - name: trivy-scan
   pull: if-not-exists
@@ -51,7 +60,11 @@ steps:
     - cd examples/basic-proof
     - python -m unittest tests/*_test.py
   when:
-    event: push
+    branch:
+      exclude:
+      - master
+    event:
+    - push
 
 - name: build-master
   pull: if-not-exists
@@ -67,9 +80,9 @@ steps:
     cache_from: quay.io/ukhomeofficedigital/tf-testrunner:latest
   environment:
     DOCKER_PASSWORD:
-      from_secret: docker_password
+      from_secret: DOCKER_PASSWORD
     DOCKER_USERNAME:
-      from_secret: docker_username
+      from_secret: DOCKER_USERNAME
   when:
     branch:
     - master
