@@ -56,7 +56,7 @@ steps:
     - push
 
 - name: test_example_implementation
-  image: quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
+  image: *acp-docker-image
   commands:
     - cd examples/basic-proof
     - python -m unittest tests/*_test.py
