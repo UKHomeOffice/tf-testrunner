@@ -58,7 +58,7 @@ steps:
 - name: test_example_implementation
   image: quay.io/ukhomeofficedigital/tf-testrunner:${DRONE_COMMIT_SHA}
   commands:
-    - /usr/local/bin/wait
+    - wait
     - cd examples/basic-proof
     - python -m unittest tests/*_test.py
   when:
