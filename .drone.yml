@@ -31,6 +31,7 @@ steps:
 #    - DOCKER_HOST=tcp://172.17.0.1:2375
   commands:
     - docker login -u=$${DOCKER_USERNAME} -p=$${DOCKER_PASSWORD} quay.io
+    - docker tag tf-testrunner quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
     - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${DRONE_COMMIT_SHA}
   environment:
     DOCKER_USERNAME:
