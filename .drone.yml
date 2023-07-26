@@ -44,7 +44,7 @@ steps:
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/trivyscanner:master
   commands:
-  - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-$${DRONE_BUILD_NUMBER}
+  - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
   when:
     branch:
       exclude:
@@ -53,7 +53,7 @@ steps:
     - push
 
 - name: test_example_implementation
-  image: quay.io/ukhomeofficedigital/tf-testrunner:b-$${DRONE_BUILD_NUMBER}
+  image: quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
   commands:
     - cd examples/basic_proof
     - python -m unittest tests/*_test.py
@@ -87,7 +87,7 @@ steps:
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/trivyscanner:master
   commands:
-  - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-$${DRONE_BUILD_NUMBER}
+  - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
   when:
     branch:
         - master
