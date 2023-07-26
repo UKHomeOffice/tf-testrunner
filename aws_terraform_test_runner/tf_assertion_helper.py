@@ -32,7 +32,8 @@ def finder(parent, starts_with, matching_object):
 def get_value(parent, match_address, match_value):
     """terraform 12 return json value"""
     data = parent['resource_changes']
-    for x in range(len(data)):
-        if data[x]['address'] == match_address:
-            return data[x]['change']['after'][match_value]
+    # pylint: disable=W0612
+    for index, value in enumerate(data):
+        if value['address'] == match_address:
+            return value['change']['after'][match_value]
     return None

@@ -3,7 +3,7 @@
 
 tf-testrunner parses [Terraform configuration](https://www.terraform.io/docs/configuration/index.html) to Python and then runs your tests.
 
-Current terraform upgade tag is 32.
+Current terraform upgrade tag is 32.
 
 ### How it works:
 
@@ -97,9 +97,9 @@ resource "aws_instance" "foo" {
 }
 ```
 
-**[More examples](./examples)**
+**[More examples](examples)**
 
-## Additional Usage Mothod get_vaule
+## Additional Usage Method get_value
 
 To handle the terraform output plan of json [structure](https://www.terraform.io/docs/internals/json-format.html), we are only interested in ``resource_changes`` sections with arrays of resources to be changed. Helper method  ```get_vaule``` will get first parmater of module resource name and its change value in second parameter.
 See example snippet.
@@ -158,7 +158,7 @@ if __name__ == '__main__':
 ```
 
 
-## Additional Usage Methos finder
+## Additional Usage Method finder
 
 To handle the occurrence of unique numbers in keys after parsing, use the assertion helper method ```finder```.
 

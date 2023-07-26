@@ -28,13 +28,13 @@ class TestRunnerMethods(unittest.TestCase):
     @mock.patch("subprocess.call")
     def test__terraform_init(self, subprocess_mock):
         Runner._terraform_init(self)
-        subprocess_mock.assert_called_once_with(["terraform", "init", self.tmpdir])
+        subprocess_mock.assert_called_once_with(["terraform", f"-chdir={self.tmpdir}", "init"])
 
     @mock.patch("os.system")
     def test_teraform_plan(self, os_mock):
-        Runner._teraform_plan(self)
+        Runner._terraform_plan(self)
         os_mock.assert_called_once_with(
-            "terraform plan -input=false -out=" + self.tmpdir + "/mytf.tfplan " + self.tmpdir)
+            f"terraform -chdir={self.tmpdir} plan -input=false -out={self.tmpdir}/mytf.tfplan")
 
     @unittest.skip  # @TODO
     @mock.patch("os.system")
@@ -47,7 +47,8 @@ class TestRunnerMethods(unittest.TestCase):
     def test_snippet_to_json(self, subprocess_mock):
         Runner.snippet_to_json(self)
         subprocess_mock.assert_called_once_with(
-            ['terraform', 'show', '-no-color', '-json', self.tmpdir + '/mytf.tfplan'])
+            ["terraform", f"-chdir={self.tmpdir}", "show",
+             "-no-color", "-json", f"{self.tmpdir}/mytf.tfplan"])
 
     @mock.patch("json.loads")
     def test_json_to_dict(self, mock_json):
@@ -63,9 +64,7 @@ class TestE2E(unittest.TestCase):
             region  = "eu-west-2"
             access_key = "foo"
             secret_key = "bar"
-            profile = "foo"
             skip_credentials_validation = true
-            skip_get_ec2_platforms = true
             skip_requesting_account_id = true
         }
 
@@ -79,7 +78,7 @@ class TestE2E(unittest.TestCase):
 
     def test_terraform_version(self):
         print(self.result)
-        self.assertEqual(self.result["terraform_version"], "0.12.25")
+        self.assertEqual(self.result["terraform_version"], "1.5.3")
 
     def test_create_action(self):
         self.assertEqual(self.result["resource_changes"][0]["change"]["actions"], ['create'])
@@ -98,9 +97,7 @@ class TestE2EModule(unittest.TestCase):
             region  = "eu-west-2"
             access_key = "foo"
             secret_key = "bar"
-            profile = "foo"
             skip_credentials_validation = true
-            skip_get_ec2_platforms = true
             skip_requesting_account_id = true
         }
 

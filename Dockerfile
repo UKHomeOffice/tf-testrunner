@@ -1,48 +1,38 @@
-## build our app in python
-FROM quay.io/ukhomeofficedigital/centos-base:v0.5.14.1
+# Base our Docker image on the latest Alpine Linux image
+FROM alpine
 
-RUN yum update --quiet -y \
-    && yum install --quiet -y \
-    git \
-    wget \
-    make \
-    gcc \
-    openssl-devel \
-    zlib-devel \
-    pcre-devel \
-    bzip2-devel \
-    libffi-devel \
-    epel-release \
-    sqlite-devel \
-    && yum clean all --quiet -y
+# Add the lastest Python3 & Pip
+RUN apk add --update --upgrade --no-cache --virtual .run-deps \
+    python3 \
+    py3-pip
+RUN rm -rf /var/cache/apk /root/.cache
 
-COPY --from=hashicorp/terraform:0.12.25 /bin/terraform /usr/local/bin
+# Get the latest terraform binary
+COPY --from=hashicorp/terraform:latest /bin/terraform /usr/local/bin
 
 WORKDIR /app
 
-# Install Python3.7.2 and pip modules
-RUN cd /usr/bin && \
-    wget --quiet https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tgz && \
-    tar xzf Python-3.7.2.tgz && \
-    cd Python-3.7.2 && \
-    ./configure --enable-optimizations && \
-    make altinstall && \
-    alternatives --install /usr/bin/python python /usr/local/bin/python3.7 1
+# Let Python know where to find the aws_terraform_test_runner module
+ENV PYTHONPATH /app/aws_terraform_test_runner
 
+# Install pip modules
 COPY requirements.txt .
-
-RUN python -m pip install --no-cache-dir --quiet -r requirements.txt
-
-# Fix yum installer with Python3.7 running as a global default
-RUN sed -i '/#!\/usr\/bin\/python/c\#!\/usr\/bin\/python2.7' /usr/bin/yum && \
-    sed -i '/#! \/usr\/bin\/python/c\#! \/usr\/bin\/python2.7' /usr/libexec/urlgrabber-ext-down
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir --quiet -r requirements.txt
+RUN pip install --upgrade build
 
 COPY . .
 
-RUN pylint **/*.py \
-    && coverage run -m unittest tests/*_test.py \
-    && coverage report
+# Build the aws_terraform_test_runner module
+RUN python -m build
 
+# Check it's all good
+RUN pylint **/*.py
+RUN coverage run -m unittest tests/*_test.py
+RUN coverage report
+
+# Install the aws_terraform_test_runner module
 RUN python -m pip install .
 
+# When this Docker Image is called, run this command to unit-test the python tests
 ENTRYPOINT python -m unittest tests/*_test.py
