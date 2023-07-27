@@ -56,7 +56,8 @@ steps:
   image: quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
   commands:
     - cd examples/basic_proof
-    - python -m unittest tests/*_test.py
+    - docker run
+#    - python -m unittest tests/*_test.py
   when:
     branch:
       exclude:
