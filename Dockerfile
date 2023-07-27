@@ -5,7 +5,8 @@ FROM alpine
 RUN apk add --update --upgrade --no-cache --virtual .run-deps \
     python3 \
     py3-pip \
-    git
+    git \
+    openssh
 RUN rm -rf /var/cache/apk /root/.cache
 
 # Get the latest terraform binary
