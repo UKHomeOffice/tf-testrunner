@@ -42,10 +42,8 @@ class Runner:
             if os.path.isfile(file):
                 shutil.copy(file, f"{self.tmpdir}/mymodule")
 
-        files = glob.iglob(os.path.join(sys.path[0], "lambda/*"))
-        for file in files:
-            if os.path.isfile(file):
-                shutil.copy(file, f"{self.tmpdir}/mymodule")
+        lambda_code_dir = os.path.join(sys.path[0], "lambda")
+        shutil.copytree(lambda_code_dir, {self.tmpdir})
 
     def run(self):
         self._mktmpdir()
