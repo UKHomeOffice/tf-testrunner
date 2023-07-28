@@ -44,7 +44,7 @@ class Runner:
 
         lambda_code_dir = os.path.join(sys.path[0], "lambda")
         if os.path.isdir(lambda_code_dir):
-            shutil.copytree(lambda_code_dir, self.tmpdir)
+            shutil.copytree(lambda_code_dir, f"{self.tmpdir}/lambda")
 
     def run(self):
         self._mktmpdir()
