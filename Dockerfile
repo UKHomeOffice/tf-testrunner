@@ -4,7 +4,9 @@ FROM alpine
 # Add the lastest Python3 & Pip
 RUN apk add --update --upgrade --no-cache --virtual .run-deps \
     python3 \
-    py3-pip
+    py3-pip \
+    git \
+    openssh
 RUN rm -rf /var/cache/apk /root/.cache
 
 # Get the latest terraform binary

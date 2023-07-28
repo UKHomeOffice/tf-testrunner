@@ -34,13 +34,17 @@ class Runner:
         os.system(f"terraform -chdir={self.tmpdir} plan -input=false -out={self.tmpdir}/mytf.tfplan")
 
     def _copy_tf_files(self):
-        os.system("rm -rf .terraform/modules")
+        os.system(f"rm -rf {self.tmpdir}/.terraform/modules")
         os.system(f"mkdir {self.tmpdir}/mymodule")
 
         files = glob.iglob(os.path.join(sys.path[0], "*.tf"))
         for file in files:
             if os.path.isfile(file):
                 shutil.copy(file, f"{self.tmpdir}/mymodule")
+
+        lambda_code_dir = os.path.join(sys.path[0], "lambda")
+        if os.path.isdir(lambda_code_dir):
+            shutil.copytree(lambda_code_dir, f"{self.tmpdir}/lambda")
 
     def run(self):
         self._mktmpdir()
