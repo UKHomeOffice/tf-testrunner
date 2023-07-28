@@ -43,7 +43,8 @@ class Runner:
                 shutil.copy(file, f"{self.tmpdir}/mymodule")
 
         lambda_code_dir = os.path.join(sys.path[0], "lambda")
-        shutil.copytree(lambda_code_dir, {self.tmpdir})
+        if os.path.isdir(lambda_code_dir):
+            shutil.copytree(lambda_code_dir, {self.tmpdir})
 
     def run(self):
         self._mktmpdir()
