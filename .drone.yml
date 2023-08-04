@@ -10,13 +10,17 @@ platform:
   os: linux
   arch: amd64
 
+environment:
+  TERRAFORM_VERSION_MAJOR: 1.5
+  TERRAFORM_VERSION_MINOR: 4
+
 steps:
 - name: build_docker_image
   pull: if-not-exists
   image: *acp-docker-image
   commands:
     - /usr/local/bin/wait
-    - docker build --tag tf-testrunner:b-$${DRONE_BUILD_NUMBER} .
+    - docker build --build-arg TERRAFORM_VERSION_MAJOR=$${TERRAFORM_VERSION_MAJOR} --build-arg TERRAFORM_VERSION_MINOR=$${TERRAFORM_VERSION_MINOR} --tag tf-testrunner:b-$${DRONE_BUILD_NUMBER} .
   when:
     event:
     - push
@@ -100,8 +104,8 @@ steps:
   image: *acp-docker-image
   commands:
     - docker login --username=$${DOCKER_USERNAME} --password=$${DOCKER_PASSWORD} quay.io
-    - docker tag tf-testrunner:b-$${DRONE_BUILD_NUMBER} quay.io/ukhomeofficedigital/tf-testrunner:latest
-    - docker push quay.io/ukhomeofficedigital/tf-testrunner:latest
+    - docker tag tf-testrunner:b-$${DRONE_BUILD_NUMBER} quay.io/ukhomeofficedigital/tf-testrunner:$${TERRAFORM_VERSION_MAJOR}
+    - docker push quay.io/ukhomeofficedigital/tf-testrunner:$${TERRAFORM_VERSION_MAJOR}
   environment:
     DOCKER_PASSWORD:
       from_secret: DOCKER_PASSWORD
