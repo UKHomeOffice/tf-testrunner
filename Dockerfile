@@ -15,9 +15,6 @@ RUN apk add --update --upgrade --no-cache --virtual .run-deps \
     openssh
 RUN rm -rf /var/cache/apk /root/.cache
 
-# Terraform version passed in from Drone
-ARG TERRAFORM_VERSION=${TERRAFORM_VERSION}
-
 # Get the latest terraform binary
 COPY --from=source_image /bin/terraform /usr/local/bin
 
