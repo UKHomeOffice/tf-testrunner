@@ -1,3 +1,9 @@
+# Terraform version passed in from Drone
+ARG TERRAFORM_VERSION=${TERRAFORM_VERSION}
+
+# Will COPY terrafrom exe FROM this source image
+FROM hashicorp/terraform:${TERRAFORM_VERSION} as source_image
+
 # Base our Docker image on the latest Alpine Linux image
 FROM alpine
 
@@ -10,7 +16,7 @@ RUN apk add --update --upgrade --no-cache --virtual .run-deps \
 RUN rm -rf /var/cache/apk /root/.cache
 
 # Get the latest terraform binary
-COPY --from=hashicorp/terraform:latest /bin/terraform /usr/local/bin
+COPY --from=source_image /bin/terraform /usr/local/bin
 
 WORKDIR /app
 
