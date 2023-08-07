@@ -21,7 +21,7 @@ steps:
   image: *acp-docker-image
   commands:
     - /usr/local/bin/wait
-    - docker build --build-arg TERRAFORM_VERSION=$${TERRAFORM_VERSION_MAJOR}.$${TERRAFORM_VERSION_MINOR}.$${TERRAFORM_VERSION_PATCH} --build-arg TERRAFORM_VERSION_MINOR=$${TERRAFORM_VERSION_MINOR} --tag tf-testrunner:b-$${DRONE_BUILD_NUMBER} .
+    - docker build --build-arg TERRAFORM_VERSION=$${TERRAFORM_VERSION_MAJOR}.$${TERRAFORM_VERSION_MINOR}.$${TERRAFORM_VERSION_PATCH} --tag tf-testrunner:b-$${DRONE_BUILD_NUMBER} .
   when:
     event:
     - push
