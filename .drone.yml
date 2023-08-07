@@ -105,7 +105,8 @@ steps:
   image: *acp-docker-image
   commands:
     - docker login --username=$${DOCKER_USERNAME} --password=$${DOCKER_PASSWORD} quay.io
-    - docker tag tf-testrunner:b-$${DRONE_BUILD_PARENT} quay.io/ukhomeofficedigital/tf-testrunner:TF$${TERRAFORM_VERSION_MAJOR}
+    - docker pull quay.io/ukhomeofficedigital/tf-testrunner:b-$${DRONE_BUILD_PARENT}
+    - docker tag quay.io/ukhomeofficedigital/tf-testrunner:b-$${DRONE_BUILD_PARENT} quay.io/ukhomeofficedigital/tf-testrunner:TF$${TERRAFORM_VERSION_MAJOR}.$${TERRAFORM_VERSION_MINOR}
     - docker push quay.io/ukhomeofficedigital/tf-testrunner:TF$${TERRAFORM_VERSION_MAJOR}.$${TERRAFORM_VERSION_MINOR}
   environment:
     DOCKER_PASSWORD:
