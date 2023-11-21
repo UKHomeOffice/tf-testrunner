@@ -78,7 +78,7 @@ class TestE2E(unittest.TestCase):
 
     def test_terraform_version(self):
         print(self.result)
-        self.assertEqual(self.result["terraform_version"], "1.5.4")
+        self.assertEqual(self.result["terraform_version"], "1.6.4")
 
     def test_create_action(self):
         self.assertEqual(self.result["resource_changes"][0]["change"]["actions"], ['create'])
@@ -117,6 +117,7 @@ class TestE2EModule(unittest.TestCase):
 
     def test_ami(self):
         self.assertEqual(self.runner.get_value("module.foo.aws_instance.foo", "ami"), "foo")
+
 
 if __name__ == '__main__':
     unittest.main()
