@@ -12,7 +12,7 @@ platform:
 
 environment:
   TERRAFORM_VERSION_MAJOR: 1
-  TERRAFORM_VERSION_MINOR: 5
+  TERRAFORM_VERSION_MINOR: 6
   TERRAFORM_VERSION_PATCH: 4
 
 steps:
@@ -24,7 +24,7 @@ steps:
     - docker build --build-arg TERRAFORM_VERSION=$${TERRAFORM_VERSION_MAJOR}.$${TERRAFORM_VERSION_MINOR}.$${TERRAFORM_VERSION_PATCH} --tag tf-testrunner:b-$${DRONE_BUILD_NUMBER} .
   when:
     event:
-    - push
+      - push
 
 - name: push_image_to_quay
   pull: if-not-exists
@@ -41,21 +41,21 @@ steps:
   when:
     branch:
       exclude:
-      - master
+        - master
     event:
-    - push
+      - push
 
 - name: trivy_scan
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/trivyscanner:master
   commands:
-  - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
+    - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
   when:
     branch:
       exclude:
-      - master
+        - master
     event:
-    - push
+      - push
 
 - name: test_example_implementation
   image: quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
@@ -65,9 +65,9 @@ steps:
   when:
     branch:
       exclude:
-      - master
+        - master
     event:
-    - push
+      - push
 
 
 - name: push_master_image_to_quay
@@ -86,16 +86,16 @@ steps:
     branch:
       - master
     event:
-    - push
+      - push
 
 - name: trivy_scan_master
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/trivyscanner:master
   commands:
-  - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
+    - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
   when:
     branch:
-        - master
+      - master
     event:
       - push
 
@@ -115,11 +115,11 @@ steps:
       from_secret: DOCKER_USERNAME
   when:
     branch:
-    - master
+      - master
     event:
-    - promote
+      - promote
     target:
-    - production
+      - production
 
 services:
 - name: docker
