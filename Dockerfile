@@ -23,11 +23,11 @@ WORKDIR /app
 # Let Python know where to find the aws_terraform_test_runner module
 ENV PYTHONPATH /app/aws_terraform_test_runner
 
+# Python is now more fussy about upgrading the system environment - but we want to, we do not want to use a virtual env
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
 # Install pip modules
 COPY requirements.txt .
-
-RUN python3 -m venv /app/venv
-ENV PATH="/app/venv/bin:$PATH"
 
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
@@ -46,6 +46,9 @@ RUN coverage report
 
 # Install the aws_terraform_test_runner module
 RUN python -m pip install .
+
+# Turn off the override - in case anyone else pip-installs further
+ENV PIP_BREAK_SYSTEM_PACKAGES=0
 
 # When this Docker Image is called, run this command to unit-test the python tests
 ENTRYPOINT python -m unittest tests/*_test.py
