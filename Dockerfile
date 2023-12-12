@@ -23,11 +23,11 @@ WORKDIR /app
 # Let Python know where to find the aws_terraform_test_runner module
 ENV PYTHONPATH /app/aws_terraform_test_runner
 
+# Python is now more fussy about upgrading the system environment - but we want to, we do not want to use a virtual env
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
 # Install pip modules
 COPY requirements.txt .
-
-RUN python3 -m venv /app/venv
-ENV PATH="/app/venv/bin:$PATH"
 
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
