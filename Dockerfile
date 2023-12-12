@@ -12,7 +12,6 @@ RUN apk add --update --upgrade --no-cache --virtual .run-deps \
     python3 \
     py3-pip \
     git \
-    py3-setuptools \
     openssh
 RUN rm -rf /var/cache/apk /root/.cache
 
@@ -31,6 +30,7 @@ RUN python3 -m venv /app/venv
 ENV PATH="/app/venv/bin:$PATH"
 
 RUN pip install --upgrade pip
+RUN pip install --upgrade setuptools
 RUN pip install --no-cache-dir --quiet -r requirements.txt
 RUN pip install --upgrade build
 
