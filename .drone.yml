@@ -13,7 +13,7 @@ platform:
 environment:
   TERRAFORM_VERSION_MAJOR: 1
   TERRAFORM_VERSION_MINOR: 6
-  TERRAFORM_VERSION_PATCH: 4
+  TERRAFORM_VERSION_PATCH: 5
 
 steps:
 - name: build_docker_image

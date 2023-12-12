@@ -60,7 +60,7 @@ class TestRunnerMethods(unittest.TestCase):
 class TestE2E(unittest.TestCase):
     def setUp(self):
         self.snippet = """
-        provider "aws" {
+        provider aws {
             region  = "eu-west-2"
             access_key = "foo"
             secret_key = "bar"
@@ -78,7 +78,7 @@ class TestE2E(unittest.TestCase):
 
     def test_terraform_version(self):
         print(self.result)
-        self.assertEqual(self.result["terraform_version"], "1.6.4")
+        self.assertEqual(self.result["terraform_version"], "1.6.5")
 
     def test_create_action(self):
         self.assertEqual(self.result["resource_changes"][0]["change"]["actions"], ['create'])
@@ -93,7 +93,7 @@ class TestE2E(unittest.TestCase):
 class TestE2EModule(unittest.TestCase):
     def setUp(self):
         self.snippet = """
-        provider "aws" {
+        provider aws {
             region  = "eu-west-2"
             access_key = "foo"
             secret_key = "bar"
