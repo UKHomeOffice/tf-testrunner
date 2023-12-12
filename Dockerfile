@@ -25,6 +25,10 @@ ENV PYTHONPATH /app/aws_terraform_test_runner
 
 # Install pip modules
 COPY requirements.txt .
+
+RUN python3 -m venv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
+
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --quiet -r requirements.txt
 RUN pip install --upgrade build
