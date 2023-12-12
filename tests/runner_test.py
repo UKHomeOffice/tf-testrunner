@@ -60,7 +60,7 @@ class TestRunnerMethods(unittest.TestCase):
 class TestE2E(unittest.TestCase):
     def setUp(self):
         self.snippet = """
-        provider "aws" {
+        provider aws {
             region  = "eu-west-2"
             access_key = "foo"
             secret_key = "bar"
@@ -93,7 +93,7 @@ class TestE2E(unittest.TestCase):
 class TestE2EModule(unittest.TestCase):
     def setUp(self):
         self.snippet = """
-        provider "aws" {
+        provider aws {
             region  = "eu-west-2"
             access_key = "foo"
             secret_key = "bar"

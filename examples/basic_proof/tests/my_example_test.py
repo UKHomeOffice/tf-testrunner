@@ -7,7 +7,7 @@ class TestE2E(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.snippet = """
-            provider "aws" {
+            provider aws {
               region = "eu-west-2"
               access_key = "foo"
               secret_key = "bar"
@@ -25,7 +25,7 @@ class TestE2E(unittest.TestCase):
 
     def test_terraform_version(self):
         print(self.result)
-        self.assertEqual(self.result["terraform_version"], "1.6.4")
+        self.assertEqual(self.result["terraform_version"], "1.6.5")
 
     def test_root_module(self):
         self.assertEqual(self.result["configuration"]["root_module"]["module_calls"]["my_module"]["source"], "./mymodule")

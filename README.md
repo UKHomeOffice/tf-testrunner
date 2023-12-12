@@ -56,7 +56,7 @@ class TestMyModule(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.snippet = """
-            provider "aws" {
+            provider aws {
               region = "eu-west-2"
               access_key = "foo"
               secret_key = "bar"
