@@ -25,7 +25,7 @@ class TestE2E(unittest.TestCase):
 
     def test_terraform_version(self):
         print(self.result)
-        self.assertEqual(self.result["terraform_version"], "1.6.5")
+        self.assertEqual(self.result["terraform_version"], "1.6.6")
 
     def test_root_module(self):
         self.assertEqual(self.result["configuration"]["root_module"]["module_calls"]["my_module"]["source"], "./mymodule")

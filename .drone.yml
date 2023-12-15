@@ -1,6 +1,8 @@
 ---
 global-variables:
   acp-docker-image: &acp-docker-image 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind:latest
+  trivy-image: &trivy-image quay.io/ukhomeofficedigital/trivyscanner:master
+
 
 kind: pipeline
 name: default
@@ -13,7 +15,7 @@ platform:
 environment:
   TERRAFORM_VERSION_MAJOR: 1
   TERRAFORM_VERSION_MINOR: 6
-  TERRAFORM_VERSION_PATCH: 5
+  TERRAFORM_VERSION_PATCH: 6
 
 steps:
 - name: build_docker_image
@@ -47,7 +49,7 @@ steps:
 
 - name: trivy_scan
   pull: if-not-exists
-  image: quay.io/ukhomeofficedigital/trivyscanner:master
+  image: *trivy-image
   commands:
     - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
   when:
@@ -90,7 +92,7 @@ steps:
 
 - name: trivy_scan_master
   pull: if-not-exists
-  image: quay.io/ukhomeofficedigital/trivyscanner:master
+  image: *trivy-image
   commands:
     - trivy image --ignore-unfixed --exit-code 0 --no-progress quay.io/ukhomeofficedigital/tf-testrunner:b-${DRONE_BUILD_NUMBER}
   when:
