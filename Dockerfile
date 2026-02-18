@@ -1,16 +1,16 @@
 # Terraform version passed in from Drone
 ARG TERRAFORM_VERSION=${TERRAFORM_VERSION}
 
-# Vault version (set in Drone or leave default)
-ARG VAULT_VERSION=1.16.2
-
 # Will COPY terraform exe FROM this source image
 FROM hashicorp/terraform:${TERRAFORM_VERSION} as source_image
 
 # Base our Docker image on the latest Alpine Linux image
 FROM alpine
 
-# Runtime deps (python + tools you already had)
+# Vault version
+ARG VAULT_VERSION=1.16.2
+
+# Add python3 + pip
 RUN apk add --update --upgrade --no-cache --virtual .run-deps \
     python3 \
     py3-pip \
@@ -18,7 +18,7 @@ RUN apk add --update --upgrade --no-cache --virtual .run-deps \
     openssh \
     ca-certificates
 
-# Build/install deps for Vault install (removed later)
+# Build/install deps for Vault install
 RUN apk add --no-cache --virtual .vault-deps \
     curl \
     unzip
