@@ -16,7 +16,8 @@ RUN apk add --update --upgrade --no-cache --virtual .run-deps \
     py3-pip \
     git \
     openssh \
-    ca-certificates
+    ca-certificates \
+    jq
 
 # Build/install deps for Vault install
 RUN apk add --no-cache --virtual .vault-deps \
