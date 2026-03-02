@@ -108,8 +108,11 @@ steps:
   commands:
     - docker login --username=$${DOCKER_USERNAME} --password=$${DOCKER_PASSWORD} quay.io
     - docker pull quay.io/ukhomeofficedigital/tf-testrunner:b-$${DRONE_BUILD_PARENT}
-    - docker tag quay.io/ukhomeofficedigital/tf-testrunner:b-$${DRONE_BUILD_PARENT} quay.io/ukhomeofficedigital/tf-testrunner:TF$${TERRAFORM_VERSION_MAJOR}.$${TERRAFORM_VERSION_MINOR}
-    - docker push quay.io/ukhomeofficedigital/tf-testrunner:TF$${TERRAFORM_VERSION_MAJOR}.$${TERRAFORM_VERSION_MINOR}
+    - docker tag quay.io/ukhomeofficedigital/tf-testrunner:b-$${DRONE_BUILD_PARENT} quay.io/ukhomeofficedigital/tf-testrunner:latest
+    - docker push quay.io/ukhomeofficedigital/tf-testrunner:latest
+    # this is for tagging with new TF versions
+    # - docker tag quay.io/ukhomeofficedigital/tf-testrunner:b-$${DRONE_BUILD_PARENT} quay.io/ukhomeofficedigital/tf-testrunner:TF$${TERRAFORM_VERSION_MAJOR}.$${TERRAFORM_VERSION_MINOR}
+    # - docker push quay.io/ukhomeofficedigital/tf-testrunner:TF$${TERRAFORM_VERSION_MAJOR}.$${TERRAFORM_VERSION_MINOR}
   environment:
     DOCKER_PASSWORD:
       from_secret: DOCKER_PASSWORD
